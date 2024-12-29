@@ -1,26 +1,32 @@
 const initialCards = [
     {
-      name: "Архыз",
-      link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg",
+      name: "Церковь",
+      alt: 'Церковь',
+      src: "../images/card_1.jpg",
     },
     {
-      name: "Челябинская область",
-      link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg",
+      name: "Безкрайние луга",
+      alt: 'Бескрайние луга, где-то в сухом регионе нашей планеты',
+      src: "../images/card_2.jpg",
     },
     {
-      name: "Иваново",
-      link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg",
+      name: "Норвегия",
+      alt: 'Лес и монументально накрывающие собой горы с снежными опушками в дали',
+      src: "../images/card_3.jpg",
     },
     {
-      name: "Камчатка",
-      link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg",
+      name: "Свобода",
+      alt: 'Статуя свободы',
+      src: "../images/card_4.jpg",
     },
     {
-      name: "Холмогорский район",
-      link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg",
-    },
+      name: "Жизнь",
+      alt: 'сноубордист, в полете на фоне горы и леса',
+      src: "../images/card_5.jpg",
+    },  
     {
-      name: "Байкал",
-      link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg",
+      name: "Загадка",
+      alt: 'Загадочная дверь',
+      src: "../images/card_6.jpg",
     }
 ];
