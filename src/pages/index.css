@@ -1,0 +1,12 @@
+@import "/vendor/normalize.css";
+@import "/vendor/fonts.css";
+@import "/src/blocks/page/page.css";
+@import "/src/blocks/header/header.css";
+@import "/src/blocks/content/content.css";
+@import "/src/blocks/footer/footer.css";
+@import "/src/blocks/profile/profile.css";
+@import "/src/blocks/places/places.css";
+@import "/src/blocks/card/card.css";
+@import "/src/blocks/popup/popup.css";
+@import "/src/blocks/popup/_is-animated/popup_is-animated.css";
+@import "/src/blocks/popup/_is-opened/popup_is-opened.css";
