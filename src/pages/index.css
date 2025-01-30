@@ -1,6 +1,7 @@
 @import "/vendor/normalize.css";
 @import "/vendor/fonts.css";
 @import "/src/blocks/page/page.css";
+@import "/src/blocks/avatar/avatar.css";
 @import "/src/blocks/header/header.css";
 @import "/src/blocks/content/content.css";
 @import "/src/blocks/footer/footer.css";
