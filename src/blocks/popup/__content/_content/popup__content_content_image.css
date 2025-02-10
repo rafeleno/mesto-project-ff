@@ -6,6 +6,7 @@
     display: flex;
     background: transparent;
     -webkit-background-size: cover;
+    visibility: hidden;
     background-size: cover;
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
