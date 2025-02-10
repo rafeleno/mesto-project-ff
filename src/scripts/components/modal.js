@@ -1,22 +1,16 @@
-const forms = document.querySelectorAll(".popup__form");
-forms.forEach((form) => {
-    form.addEventListener("submit", (evt) => {
-        evt.preventDefault();
-        form.closest(".popup__content").classList.remove("popup_is-opened");
-    });
-});
+// forms.forEach((form) => {
+//     form.addEventListener("submit", (evt) => {
+//         evt.preventDefault();
+//         form.closest(".popup").classList.remove("popup_is-opened");
+//         form.closest(".popup__content").classList.remove("popup_is-opened");
+//     });
+// });
 
-const submitModalCloser = (form) => {
-    form.addEventListener("submit", (evt) => {
-        closeModal(form.closest(".popup__content"));
-    });
-};
-
-forms.forEach((form) => {
-    form.addEventListener("submit", (evt) => {
-        submitModalCloser(form);
-    });
-});
+// const submitModalCloser = (form) => {
+//     form.addEventListener("submit", (evt) => {
+//         closeModal(form.closest(".popup__content"));
+//     });
+// };
 
 // const profileEditForm = document.querySelector("#profile-edit-form");
 // let profileEditFormName = "Жак-Ив Кусто";

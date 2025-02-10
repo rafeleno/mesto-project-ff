@@ -20,6 +20,21 @@ closeButtons.forEach((button) => {
     button.addEventListener("click", (evt) => closeModal(button.closest(".popup__content")));
 });
 
+forms.forEach((form) => {
+    form.addEventListener("submit", (evt) => {
+        closeModal(form.closest(".popup__content"));
+    });
+});
+
+document.addEventListener("keydown", (evt) => {
+    if (evt.key === "Escape") {
+        const openPopup = document.querySelector(".popup_is-opened");
+        if (openPopup) {
+            closeModal(openPopup.querySelector(".popup__content"));
+        }
+    }
+});
+
 // TODO:Вынести это в модуль---------------------------------------------------------------------
 
 const formElement = document.querySelector("#profile-edit-form");
