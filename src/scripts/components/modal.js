@@ -40,7 +40,7 @@ const overlayClose = (modal) => {
     });
 };
 
-// TODO:Привести в порядок---------------------------------------------------------------------
+// TODO:Привести в порядок, проверить на уязвимость формы -------------------------------------
 
 const formElement = document.querySelector("#profile-edit-form");
 const profileTitle = document.querySelector(".profile__title");
