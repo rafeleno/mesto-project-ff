@@ -17,13 +17,23 @@
 // let profileEditFormEmployment = "Исследователь океана";
 
 const openModal = (modal) => {
-    modal.classList.add("popup_is-opened");
-    modal.closest(".popup").classList.add("popup_is-opened");
+  modal.classList.add('popup_is-opened');
+  modal.closest('.popup').classList.add('popup_is-opened');
 };
 
 const closeModal = (modal) => {
-    modal.classList.remove("popup_is-opened");
-    modal.closest(".popup").classList.remove("popup_is-opened");
+  modal.classList.remove('popup_is-opened');
+  modal.closest('.popup').classList.remove('popup_is-opened');
+};
+
+const overlayClose = (modal) => {
+  const popup = modal.closest('.popup');
+
+  popup.addEventListener('click', (evt) => {
+    if (evt.target === popup) {
+      closeModal(modal);
+    }
+  });
 };
 
 // const closeModalEsc = (evt) => {
@@ -55,4 +65,4 @@ const closeModal = (modal) => {
 //     modal.removeEventListener("click", closePopupOverlay);
 // };
 
-export { openModal, closeModal };
+export { openModal, closeModal, overlayClose };
