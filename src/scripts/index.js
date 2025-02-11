@@ -25,7 +25,7 @@ profileAddButton.addEventListener('click', (evt) => openModal(addCardPopup));
 overlayClose(addCardPopup);
 overlayClose(popupTypeEdit);
 
-// Добавление функции закрытия на кнопки закрытия
+// Добавление функции закрытия на кнопки закрытия.
 closeButtons.forEach((button) => {
   button.addEventListener('click', (evt) =>
     closeModal(button.closest('.popup__content'))
