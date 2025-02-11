@@ -16,16 +16,19 @@
 // let profileEditFormName = "Жак-Ив Кусто";
 // let profileEditFormEmployment = "Исследователь океана";
 
-const openModal = (modal) => {
-  modal.classList.add('popup_is-opened');
-  modal.closest('.popup').classList.add('popup_is-opened');
+// Открытие popup в аргументе(content)
+const openModal = (popup) => {
+  popup.classList.add('popup_is-opened');
+  popup.closest('.popup').classList.add('popup_is-opened');
 };
 
-const closeModal = (modal) => {
-  modal.classList.remove('popup_is-opened');
-  modal.closest('.popup').classList.remove('popup_is-opened');
+// Закрытие popup в аргументе(content)
+const closeModal = (popup) => {
+  popup.classList.remove('popup_is-opened');
+  popup.closest('.popup').classList.remove('popup_is-opened');
 };
 
+//закрытие popup в аргументе(content) по кажатию на overlay
 const overlayClose = (modal) => {
   const popup = modal.closest('.popup');
 

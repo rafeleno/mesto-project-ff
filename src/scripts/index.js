@@ -17,24 +17,29 @@ const popupTypeEdit = document.querySelector('#popup-type-edit');
 const profileTitle = document.querySelector('.profile__title');
 const profileDescription = document.querySelector('.profile__description');
 
+// Добавление открытия Popup'a при нажатии на соответсвующие кнопки
 profileEditButton.addEventListener('click', (evt) => openModal(popupTypeEdit));
 profileAddButton.addEventListener('click', (evt) => openModal(addCardPopup));
 
+// Добавление возможности закрыть Popup
 overlayClose(addCardPopup);
 overlayClose(popupTypeEdit);
 
+// Добавление функции закрытия на кнопки закрытия
 closeButtons.forEach((button) => {
   button.addEventListener('click', (evt) =>
     closeModal(button.closest('.popup__content'))
   );
 });
 
+//Теперь Submit закрывает poppup
 forms.forEach((form) => {
   form.addEventListener('submit', (evt) => {
     closeModal(form.closest('.popup__content'));
   });
 });
 
+//Теперь Escape закрывает poppup
 document.addEventListener('keydown', (evt) => {
   if (evt.key === 'Escape') {
     const openPopup = document.querySelector('.popup_is-opened');
@@ -67,6 +72,7 @@ formElement.addEventListener('submit', handleFormSubmit);
 
 // ----------------------------------------------------------------------------------------------
 
+// Добавление изначальных карточек на страницу
 initialCards.forEach((item) => {
   placesList.append(
     createCard(item.src, item.alt, item.name, handleCardDelete)
