@@ -16,28 +16,56 @@
 // let profileEditFormName = "Жак-Ив Кусто";
 // let profileEditFormEmployment = "Исследователь океана";
 
-// Открытие popup в аргументе(content)
+// Открытие popup (в аргументе(popup__content))
 const openModal = (popup) => {
-  popup.classList.add('popup_is-opened');
-  popup.closest('.popup').classList.add('popup_is-opened');
+    popup.classList.add("popup_is-opened");
+    popup.closest(".popup").classList.add("popup_is-opened");
 };
 
-// Закрытие popup в аргументе(content)
+// Закрытие popup (в аргументе(popup__content))
 const closeModal = (popup) => {
-  popup.classList.remove('popup_is-opened');
-  popup.closest('.popup').classList.remove('popup_is-opened');
+    popup.classList.remove("popup_is-opened");
+    popup.closest(".popup").classList.remove("popup_is-opened");
 };
 
-//закрытие popup в аргументе(content) по кажатию на overlay
+//закрытие popup по кажатию на overlay (в аргументе(popup__content))
 const overlayClose = (modal) => {
-  const popup = modal.closest('.popup');
+    const popup = modal.closest(".popup");
 
-  popup.addEventListener('click', (evt) => {
-    if (evt.target === popup) {
-      closeModal(modal);
-    }
-  });
+    popup.addEventListener("click", (evt) => {
+        if (evt.target === popup) {
+            closeModal(modal);
+            profileFormReset();
+        }
+    });
 };
+
+// TODO:Привести в порядок---------------------------------------------------------------------
+
+const formElement = document.querySelector("#profile-edit-form");
+const profileTitle = document.querySelector(".profile__title");
+const profileDescription = document.querySelector(".profile__description");
+const nameInput = formElement.querySelector(".popup__input_type_name");
+const jobInput = formElement.querySelector(".popup__input_type_description");
+
+function handleFormSubmit(evt) {
+    evt.preventDefault();
+
+    const name = nameInput.value;
+    const job = jobInput.value;
+
+    profileTitle.textContent = name;
+    profileDescription.textContent = job;
+}
+
+formElement.addEventListener("submit", handleFormSubmit);
+
+const profileFormReset = () => {
+    nameInput.value = profileTitle.textContent;
+    jobInput.value = profileDescription.textContent;
+};
+
+// ----------------------------------------------------------------------------------------------
 
 // const closeModalEsc = (evt) => {
 //     if (evt.key === "Escape") {
@@ -68,4 +96,4 @@ const overlayClose = (modal) => {
 //     modal.removeEventListener("click", closePopupOverlay);
 // };
 
-export { openModal, closeModal, overlayClose };
+export { openModal, closeModal, overlayClose, profileFormReset };
