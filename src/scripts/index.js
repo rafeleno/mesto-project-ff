@@ -1,7 +1,7 @@
 import "../pages/index.css";
 import { presets } from "../../babel.config.js";
 import { openModal, closeModal, overlayClose, profileFormReset } from "./components/modal.js";
-import { initialCards, handleCardDelete, createCard } from "./components/cards.js";
+import { initialCards, handleCardDelete, createCard, handleAddCardFormSubmit } from "./components/cards.js";
 
 const placesList = document.querySelector(".places__list");
 const closeButtons = document.querySelectorAll(".popup__close");
@@ -10,6 +10,7 @@ const profileAddButton = document.querySelector("#profile-add-button");
 const addCardPopup = document.querySelector("#profile-add-popup");
 const profileEditButton = document.querySelector("#profile-edit-button");
 const popupTypeEdit = document.querySelector("#popup-type-edit");
+const cardAddFormElement = document.querySelector("#card-add-form");
 
 // Добавление открытия Popup'a при нажатии на соответсвующие кнопки
 profileEditButton.addEventListener("click", (evt) => openModal(popupTypeEdit));
@@ -24,6 +25,7 @@ closeButtons.forEach((button) => {
     button.addEventListener("click", (evt) => {
         closeModal(button.closest(".popup__content"));
         profileFormReset();
+        cardAddFormElement.reset();
     });
 });
 
@@ -42,10 +44,13 @@ document.addEventListener("keydown", (evt) => {
             closeModal(openPopup.querySelector(".popup__content"));
             profileFormReset();
         }
+        cardAddFormElement.reset();
     }
 });
 
 profileFormReset();
+
+cardAddFormElement.addEventListener("submit", handleAddCardFormSubmit);
 
 // Добавление изначальных карточек на страницу
 initialCards.forEach((item) => {

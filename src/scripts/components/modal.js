@@ -1,21 +1,3 @@
-// forms.forEach((form) => {
-//     form.addEventListener("submit", (evt) => {
-//         evt.preventDefault();
-//         form.closest(".popup").classList.remove("popup_is-opened");
-//         form.closest(".popup__content").classList.remove("popup_is-opened");
-//     });
-// });
-
-// const submitModalCloser = (form) => {
-//     form.addEventListener("submit", (evt) => {
-//         closeModal(form.closest(".popup__content"));
-//     });
-// };
-
-// const profileEditForm = document.querySelector("#profile-edit-form");
-// let profileEditFormName = "Жак-Ив Кусто";
-// let profileEditFormEmployment = "Исследователь океана";
-
 // Открытие popup (в аргументе(popup__content))
 const openModal = (popup) => {
     popup.classList.add("popup_is-opened");
@@ -33,22 +15,26 @@ const overlayClose = (modal) => {
     const popup = modal.closest(".popup");
 
     popup.addEventListener("click", (evt) => {
+        const cardAddFormElement = document.querySelector("#card-add-form");
         if (evt.target === popup) {
             closeModal(modal);
             profileFormReset();
+            cardAddFormElement.reset();
         }
     });
 };
 
 // TODO:Привести в порядок, проверить на уязвимость формы -------------------------------------
 
-const formElement = document.querySelector("#profile-edit-form");
+// Обрабытваем Submit -----------------------------------
+
+const profileEditFormElement = document.querySelector("#profile-edit-form");
+const nameInput = profileEditFormElement.querySelector(".popup__input_type_name");
+const jobInput = profileEditFormElement.querySelector(".popup__input_type_description");
 const profileTitle = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
-const nameInput = formElement.querySelector(".popup__input_type_name");
-const jobInput = formElement.querySelector(".popup__input_type_description");
 
-function handleFormSubmit(evt) {
+function handleProfileFormSubmit(evt) {
     evt.preventDefault();
 
     const name = nameInput.value;
@@ -58,42 +44,13 @@ function handleFormSubmit(evt) {
     profileDescription.textContent = job;
 }
 
-formElement.addEventListener("submit", handleFormSubmit);
+// Вызываем на функцию submit'a на форму редактирования профиля
+profileEditFormElement.addEventListener("submit", handleProfileFormSubmit);
 
+// Сброс полей формы редактирования профиля
 const profileFormReset = () => {
     nameInput.value = profileTitle.textContent;
     jobInput.value = profileDescription.textContent;
 };
-
-// ----------------------------------------------------------------------------------------------
-
-// const closeModalEsc = (evt) => {
-//     if (evt.key === "Escape") {
-//         const popup = document.querySelector(".popup_is-open");
-//         popup.classList.remove(".popup_is-open");
-//         popup.close();
-//     }
-// };
-
-// const closePopupOverlay = (evt) => {
-//     if (evt.target.classList.contains(".popup")) {
-//         evt.target.classList.remove(".popup_is-open");
-//         evt.target.close();
-//     }
-// };
-
-// //функция открытия, если попап открыт, добавляем слушателя клавиатуры
-// const openModal = (modal) => {
-//     modal.classList.add("popup_opened");
-//     document.addEventListener("keydown", closeModalEsc);
-//     modal.addEventListener("click", closePopupOverlay);
-// };
-
-// //функция закрытия, если попап закрыт, то удаляем слушателя клавиатуры
-// const closeModal = (modal) => {
-//     smodal.classList.remove("popup_opened");
-//     document.removeEventListener("keydown", closePopupEsc);
-//     modal.removeEventListener("click", closePopupOverlay);
-// };
 
 export { openModal, closeModal, overlayClose, profileFormReset };
