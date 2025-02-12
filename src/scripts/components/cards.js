@@ -71,7 +71,7 @@ function handleAddCardFormSubmit(evt) {
     const imageSrc = imageSrcInput.value;
     const imageName = imageNameInput.value;
 
-    placesList.append(createCard(imageSrc, "Alt", imageName, handleCardDelete));
+    placesList.prepend(createCard(imageSrc, "Alt", imageName, handleCardDelete));
 
     imageSrcInput.textContent = "";
     imageNameInput.textContent = "";
