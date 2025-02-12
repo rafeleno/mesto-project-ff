@@ -39,17 +39,27 @@ const initialCards = [
 ];
 
 //собирает карточку
-function createCard(imageSource, imageAlt, cardText, handleCardDelete) {
+function createCard(imageSource, imageAlt, cardText, handleCardDelete, handleClick) {
     const cardTemplate = document.querySelector("#card-template").content;
     const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
     const cardDeleteButton = cardElement.querySelector(".card__delete-button");
+    const likeButton = cardElement.querySelector(".card__like-button");
 
     cardElement.querySelector(".card__image").src = imageSource;
     cardElement.querySelector(".card__image").alt = imageAlt;
     cardElement.querySelector(".card__title").textContent = cardText;
     cardDeleteButton.addEventListener("click", handleCardDelete);
+    handleClick(likeButton, "card__like-button_is-active");
     return cardElement;
 }
+
+// callback для смены класса likeButton
+const likeButtonHandleClick = (element, className) => {
+    element.addEventListener("click", () => {
+        element.classList.toggle(`${className}`);
+        console.log(100);
+    });
+};
 
 //удаляет карточку
 function handleCardDelete(evt) {
@@ -58,6 +68,7 @@ function handleCardDelete(evt) {
 }
 
 // Обрабатывает создание новой карточки
+// TODO: Сделать по макету из Практимума(как в форме профиля)
 
 function handleAddCardFormSubmit(evt) {
     evt.preventDefault();
@@ -79,4 +90,4 @@ function handleAddCardFormSubmit(evt) {
     form.reset();
 }
 
-export { handleCardDelete, createCard, initialCards, handleAddCardFormSubmit };
+export { handleCardDelete, createCard, initialCards, handleAddCardFormSubmit, likeButtonHandleClick };
