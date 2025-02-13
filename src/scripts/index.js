@@ -1,7 +1,7 @@
 import "../pages/index.css";
 import { presets } from "../../babel.config.js";
 import { openModal, closeModal, overlayClose, profileFormReset } from "./components/modal.js";
-import { initialCards, handleCardDelete, createCard, handleAddCardFormSubmit, likeButtonHandleClick } from "./components/cards.js";
+import { initialCards, handleCardDelete, createCard, handleAddCardFormSubmit, likeButtonHandleClick, popupOpenFunc } from "./components/cards.js";
 
 const placesList = document.querySelector(".places__list");
 const closeButtons = document.querySelectorAll(".popup__close");
@@ -54,5 +54,5 @@ cardAddFormElement.addEventListener("submit", handleAddCardFormSubmit);
 
 // Добавление изначальных карточек на страницу
 initialCards.forEach((item) => {
-    placesList.append(createCard(item.src, item.alt, item.name, handleCardDelete, likeButtonHandleClick));
+    placesList.append(createCard(item.src, item.alt, item.name, handleCardDelete, likeButtonHandleClick, popupOpenFunc));
 });
