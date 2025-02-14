@@ -4,7 +4,7 @@ import {
   openModal,
   closeModal,
   overlayClose,
-  profileFormReset,
+  resetProfileForm,
 } from './components/modal.js';
 import {
   initialCards,
@@ -36,7 +36,7 @@ overlayClose(popupTypeEdit);
 closeButtons.forEach((button) => {
   button.addEventListener('click', (evt) => {
     closeModal(button.closest('.popup__content'));
-    profileFormReset();
+    resetProfileForm();
     cardAddFormElement.reset();
   });
 });
@@ -54,13 +54,13 @@ document.addEventListener('keydown', (evt) => {
     const openPopup = document.querySelector('.popup_is-opened');
     if (openPopup) {
       closeModal(openPopup.querySelector('.popup__content'));
-      profileFormReset();
+      resetProfileForm();
     }
     cardAddFormElement.reset();
   }
 });
 
-profileFormReset();
+resetProfileForm();
 
 cardAddFormElement.addEventListener('submit', handleAddCardFormSubmit);
 

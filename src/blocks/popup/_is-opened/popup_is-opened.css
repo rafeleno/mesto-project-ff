@@ -1,6 +1,5 @@
 .popup_is-opened {
   display: flex;
-  flex-direction: column;
   position: fixed;
   visibility: visible;
   opacity: 1;

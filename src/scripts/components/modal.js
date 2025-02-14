@@ -22,7 +22,7 @@ const overlayClose = (modal) => {
     const cardAddFormElement = document.querySelector('#card-add-form');
     if (evt.target === popup) {
       closeModal(modal);
-      profileFormReset();
+      resetProfileForm();
       cardAddFormElement.reset();
     }
   });
@@ -56,9 +56,9 @@ function handleProfileFormSubmit(evt) {
 profileEditFormElement.addEventListener('submit', handleProfileFormSubmit);
 
 // Сброс полей формы редактирования профиля
-const profileFormReset = () => {
+const resetProfileForm = () => {
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileDescription.textContent;
 };
 
-export { openModal, closeModal, overlayClose, profileFormReset };
+export { openModal, closeModal, overlayClose, resetProfileForm };
