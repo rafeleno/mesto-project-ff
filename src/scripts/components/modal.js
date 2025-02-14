@@ -15,7 +15,7 @@ const closeModal = (popup) => {
 };
 
 //закрытие popup по кажатию на overlay (в аргументе(popup__content))
-const overlayClose = (modal) => {
+const handleOverlayClose = (modal) => {
   const popup = modal.closest('.popup');
 
   popup.addEventListener('click', (evt) => {
@@ -61,4 +61,4 @@ const resetProfileForm = () => {
   jobInput.value = profileDescription.textContent;
 };
 
-export { openModal, closeModal, overlayClose, resetProfileForm };
+export { openModal, closeModal, handleOverlayClose, resetProfileForm };

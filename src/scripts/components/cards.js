@@ -5,7 +5,7 @@ import freedomImg from '../../images/card_4.jpg';
 import liveImg from '../../images/card_5.jpg';
 import enigmaImg from '../../images/card_6.jpg';
 
-import { overlayClose } from './modal.js';
+import { handleOverlayClose } from './modal.js';
 
 const initialCards = [
   {
@@ -58,7 +58,7 @@ const popupOpenFunc = (card, img, src, cardText) => {
     }
   });
 
-  overlayClose(popup);
+  handleOverlayClose(popup);
 };
 
 //собирает карточку

@@ -3,7 +3,7 @@ import { presets } from '../../babel.config.js';
 import {
   openModal,
   closeModal,
-  overlayClose,
+  handleOverlayClose,
   resetProfileForm,
 } from './components/modal.js';
 import {
@@ -29,8 +29,8 @@ profileEditButton.addEventListener('click', (evt) => openModal(popupTypeEdit));
 profileAddButton.addEventListener('click', (evt) => openModal(addCardPopup));
 
 // Добавление возможности закрыть Popup
-overlayClose(addCardPopup);
-overlayClose(popupTypeEdit);
+handleOverlayClose(addCardPopup);
+handleOverlayClose(popupTypeEdit);
 
 // Добавление функции закрытия на кнопки закрытия.
 closeButtons.forEach((button) => {
