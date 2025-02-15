@@ -12,7 +12,6 @@ import {
   createCard,
   handleAddCardFormSubmit,
   likeButtonHandleClick,
-  popupOpenFunc,
 } from './components/cards.js';
 
 const placesList = document.querySelector('.places__list');
@@ -23,6 +22,11 @@ const addCardPopup = document.querySelector('#profile-add-popup');
 const profileEditButton = document.querySelector('#profile-edit-button');
 const popupTypeEdit = document.querySelector('#popup-type-edit');
 const cardAddFormElement = document.querySelector('#card-add-form');
+//Из функции popupOpenFunc
+const cardCaption = document.querySelector('.popup__caption');
+const popupImage = document.querySelector('.popup__content_content_image');
+const popupImg = popupImage.querySelector('.popup__image');
+const overlay = popupImage.closest('.popup');
 
 // Добавление открытия Popup'a при нажатии на соответсвующие кнопки
 profileEditButton.addEventListener('click', (evt) => openModal(popupTypeEdit));
@@ -64,6 +68,22 @@ resetProfileForm();
 
 cardAddFormElement.addEventListener('submit', handleAddCardFormSubmit);
 
+// Callback для показа попапа карточки
+// в аргументе (cardElement, img, imageSource, cardText)
+const popupOpenFunc = (card, img, src, cardText) => {
+  card.addEventListener('click', (evt) => {
+    if (evt.target === img) {
+      cardCaption.textContent = cardText;
+      popupImg.src = src;
+
+      popupImage.classList.toggle('popup_is-opened');
+      overlay.classList.toggle('popup_is-opened');
+    }
+  });
+
+  handleOverlayClose(popupImage);
+};
+
 // Добавление изначальных карточек на страницу
 initialCards.forEach((item) => {
   placesList.append(
@@ -76,3 +96,5 @@ initialCards.forEach((item) => {
     )
   );
 });
+
+export { popupOpenFunc };

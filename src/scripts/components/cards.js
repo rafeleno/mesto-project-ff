@@ -5,7 +5,7 @@ import freedomImg from '../../images/card_4.jpg';
 import liveImg from '../../images/card_5.jpg';
 import enigmaImg from '../../images/card_6.jpg';
 
-import { handleOverlayClose } from './modal.js';
+import { popupOpenFunc } from '../index';
 
 const initialCards = [
   {
@@ -33,27 +33,6 @@ const initialCards = [
     src: enigmaImg,
   },
 ];
-
-// Callback для показа попапа карточки
-// в аргументе (cardElement, img, imageSource, cardText)
-const popupOpenFunc = (card, img, src, cardText) => {
-  const cardCaption = document.querySelector('.popup__caption');
-  const popup = document.querySelector('.popup__content_content_image');
-  const popupImg = popup.querySelector('.popup__image');
-  const overlay = popup.closest('.popup');
-
-  card.addEventListener('click', (evt) => {
-    if (evt.target === img) {
-      cardCaption.textContent = cardText;
-      popupImg.src = src;
-
-      popup.classList.toggle('popup_is-opened');
-      overlay.classList.toggle('popup_is-opened');
-    }
-  });
-
-  handleOverlayClose(popup);
-};
 
 //собирает карточку
 function createCard(
@@ -129,5 +108,4 @@ export {
   initialCards,
   handleAddCardFormSubmit,
   likeButtonHandleClick,
-  popupOpenFunc,
 };
