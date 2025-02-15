@@ -69,7 +69,6 @@ initialCards.forEach((item) => {
   placesList.append(
     createCard(
       item.src,
-      item.alt,
       item.name,
       handleCardDelete,
       likeButtonHandleClick,

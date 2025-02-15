@@ -10,32 +10,26 @@ import { handleOverlayClose } from './modal.js';
 const initialCards = [
   {
     name: 'Церковь',
-    alt: 'Церковь',
     src: сhurchImg,
   },
   {
     name: 'Безкрайние луга',
-    alt: 'Бескрайние луга, где-то в сухом регионе нашей планеты',
     src: endlessMeadowsImg,
   },
   {
     name: 'Норвегия',
-    alt: 'Лес и монументально накрывающие собой горы с снежными опушками в дали',
     src: norwayImg,
   },
   {
     name: 'Свобода',
-    alt: 'Статуя свободы',
     src: freedomImg,
   },
   {
     name: 'Жизнь',
-    alt: 'сноубордист, в полете на фоне горы и леса',
     src: liveImg,
   },
   {
     name: 'Загадка',
-    alt: 'Загадочная дверь',
     src: enigmaImg,
   },
 ];
@@ -64,7 +58,6 @@ const popupOpenFunc = (card, img, src, cardText) => {
 //собирает карточку
 function createCard(
   imageSource,
-  imageAlt,
   cardText,
   handleCardDelete,
   handleClick,
@@ -77,7 +70,6 @@ function createCard(
   const img = cardElement.querySelector('.card__image');
 
   img.src = imageSource;
-  img.alt = imageAlt;
   cardElement.querySelector('.card__title').textContent = cardText;
   cardDeleteButton.addEventListener('click', handleCardDelete);
   handleClick(likeButton, 'card__like-button_is-active');
@@ -118,7 +110,6 @@ function handleAddCardFormSubmit(evt) {
   placesList.prepend(
     createCard(
       imageSrc,
-      'Alt',
       imageName,
       handleCardDelete,
       likeButtonHandleClick,
