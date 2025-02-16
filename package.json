@@ -18,9 +18,7 @@
         "webpack-cli": "^6.0.1"
     },
     "dependencies": {
-        "core-js": "^3.40.0",
-        "html-loader": "^3.0.0",
-        "normalize.css": "^8.0.1"
+        "core-js": "^3.40.0"
     },
     "scripts": {
         "build": "webpack --mode production",

@@ -86,22 +86,6 @@ EditProfileForm.addEventListener("submit", (evt) => {
   closeModal(popupTypeEdit);
 });
 
-//Теперь Escape закрывает poppup
-document.addEventListener("keydown", (evt) => {
-  if (evt.key === "Escape") {
-    const openPopup = document.querySelector(".popup_is-opened");
-    if (openPopup) {
-      closeModal(openPopup.closest(".popup"));
-    }
-    if (openPopup.closest(".popup").classList.contains("popup_type_edit")) {
-      resetProfileForm();
-    }
-    if (openPopup.closest(".popup").classList.contains("popup_type_new-card")) {
-      cardAddFormElement.reset();
-    }
-  }
-});
-
 resetProfileForm();
 
 cardAddFormElement.addEventListener("submit", handleAddCardFormSubmit);
