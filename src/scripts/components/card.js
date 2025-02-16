@@ -1,4 +1,4 @@
-import { openModal, closeModal } from "./modal";
+import { openModal } from "./modal";
 
 const imagePopup = document.querySelector(".popup_type_image");
 const popupImageElement = document.querySelector(".popup__image");
@@ -35,13 +35,6 @@ const likeButtonHandleClick = (element, className) => {
   });
 };
 
-const escapeCloser = (evt) => {
-  const modal = document.querySelector(".popup_is-opened");
-  if (evt.key === "Escape" || evt.key === "Esc") {
-    closeModal(modal);
-  }
-};
-
 //удаляет карточку
 function handleCardDelete(evt) {
   const card = evt.target.closest(".card");
@@ -70,4 +63,4 @@ function handleAddCardFormSubmit(evt) {
   form.reset();
 }
 
-export { handleCardDelete, createCard, handleAddCardFormSubmit, likeButtonHandleClick, escapeCloser };
+export { handleCardDelete, createCard, handleAddCardFormSubmit, likeButtonHandleClick };
