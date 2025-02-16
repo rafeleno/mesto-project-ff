@@ -1,37 +1,3 @@
-import сhurchImg from "../../images/card_1.jpg";
-import endlessMeadowsImg from "../../images/card_2.jpg";
-import norwayImg from "../../images/card_3.jpg";
-import freedomImg from "../../images/card_4.jpg";
-import liveImg from "../../images/card_5.jpg";
-import enigmaImg from "../../images/card_6.jpg";
-
-const initialCards = [
-  {
-    name: "Церковь",
-    src: сhurchImg,
-  },
-  {
-    name: "Безкрайние луга",
-    src: endlessMeadowsImg,
-  },
-  {
-    name: "Норвегия",
-    src: norwayImg,
-  },
-  {
-    name: "Свобода",
-    src: freedomImg,
-  },
-  {
-    name: "Жизнь",
-    src: liveImg,
-  },
-  {
-    name: "Загадка",
-    src: enigmaImg,
-  },
-];
-
 import { openModal } from "./modal";
 
 const imagePopup = document.querySelector(".popup_type_image");
@@ -52,7 +18,7 @@ function createCard(imageSource, cardText, handleCardDelete, handleClick) {
   cardDeleteButton.addEventListener("click", handleCardDelete);
   handleClick(likeButton, "card__like-button_is-active");
 
-  img.addEventListener("click", function () {
+  img.addEventListener("click", (evt) => {
     popupImageElement.src = imageSource;
     popupImageElement.alt = cardText;
     popupCaptionElement.textContent = cardText;
@@ -66,7 +32,6 @@ function createCard(imageSource, cardText, handleCardDelete, handleClick) {
 const likeButtonHandleClick = (element, className) => {
   element.addEventListener("click", () => {
     element.classList.toggle(`${className}`);
-    console.log(100);
   });
 };
 
@@ -98,4 +63,4 @@ function handleAddCardFormSubmit(evt) {
   form.reset();
 }
 
-export { handleCardDelete, createCard, initialCards, handleAddCardFormSubmit, likeButtonHandleClick };
+export { handleCardDelete, createCard, handleAddCardFormSubmit, likeButtonHandleClick };
