@@ -64,3 +64,8 @@ cardAddFormElement.addEventListener("submit", handleAddCardFormSubmit);
 initialCards.forEach((item) => {
   placesList.append(createCard(item.src, item.name, handleCardDelete, likeButtonHandleClick));
 });
+
+// Класс анимации
+popups.forEach(function (item) {
+  item.classList.add("popup_is-animated");
+});
