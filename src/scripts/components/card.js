@@ -1,8 +1,4 @@
-import { openModal } from "./modal";
-
-const imagePopup = document.querySelector(".popup_type_image");
-const popupImageElement = document.querySelector(".popup__image");
-const popupCaptionElement = document.querySelector(".popup__caption");
+import { popupOpener } from "../index";
 
 //собирает карточку
 function createCard(imageSource, cardText, handleCardDelete, handleClick) {
@@ -15,24 +11,16 @@ function createCard(imageSource, cardText, handleCardDelete, handleClick) {
   img.src = imageSource;
   img.alt = cardText;
   cardElement.querySelector(".card__title").textContent = cardText;
-  cardDeleteButton.addEventListener("click", handleCardDelete);
-  handleClick(likeButton, "card__like-button_is-active");
 
-  img.addEventListener("click", (evt) => {
-    popupImageElement.src = imageSource;
-    popupImageElement.alt = cardText;
-    popupCaptionElement.textContent = cardText;
-    openModal(imagePopup);
-  });
+  cardDeleteButton.addEventListener("click", handleCardDelete);
+  likeButton.addEventListener("click", handleClick);
+  img.addEventListener("click", popupOpener);
 
   return cardElement;
 }
 
-// callback для смены класса likeButton
-const likeButtonHandleClick = (element, className) => {
-  element.addEventListener("click", () => {
-    element.classList.toggle(`${className}`);
-  });
+const likeButtonHandleClick = (evt) => {
+  evt.target.classList.toggle("card__like-button_is-active");
 };
 
 //удаляет карточку
@@ -41,26 +29,4 @@ function handleCardDelete(evt) {
   card.remove();
 }
 
-// Обрабатывает создание новой карточки
-
-function handleAddCardFormSubmit(evt) {
-  evt.preventDefault();
-
-  const form = document.querySelector("#card-add-form");
-
-  const placesList = document.querySelector(".places__list");
-  const imageSrcInput = document.querySelector(".popup__input_type_url");
-  const imageNameInput = document.querySelector(".popup__input_type_card-name");
-
-  const imageSrc = imageSrcInput.value;
-  const imageName = imageNameInput.value;
-
-  placesList.prepend(createCard(imageSrc, imageName, handleCardDelete, likeButtonHandleClick));
-
-  imageSrcInput.textContent = "";
-  imageNameInput.textContent = "";
-
-  form.reset();
-}
-
-export { handleCardDelete, createCard, handleAddCardFormSubmit, likeButtonHandleClick };
+export { handleCardDelete, createCard, likeButtonHandleClick };

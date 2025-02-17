@@ -1,7 +1,7 @@
 import "../pages/index.css";
 import { initialCards } from "./cards.js";
 import { openModal, closeModal } from "./components/modal.js";
-import { handleCardDelete, createCard, handleAddCardFormSubmit, likeButtonHandleClick } from "./components/card.js";
+import { handleCardDelete, createCard, likeButtonHandleClick } from "./components/card.js";
 
 const placesList = document.querySelector(".places__list");
 const closeButtons = document.querySelectorAll(".popup__close");
@@ -12,6 +12,10 @@ const popupTypeEdit = document.querySelector(".popup_type_edit");
 const profileEditButton = document.querySelector("#profile-edit-button");
 const cardAddFormElement = document.querySelector("#card-add-form");
 const popups = document.querySelectorAll(".popup");
+
+const imagePopup = document.querySelector(".popup_type_image");
+const popupImageElement = document.querySelector(".popup__image");
+const popupCaptionElement = document.querySelector(".popup__caption");
 
 // Добавление открытия Popup'a при нажатии на соответсвующие кнопки
 profileEditButton.addEventListener("click", (evt) => openModal(popupTypeEdit));
@@ -33,6 +37,15 @@ document.addEventListener("mousedown", function (evt) {
     cardAddFormElement.reset();
   }
 });
+
+// Функция открытия карточки
+const popupOpener = (evt) => {
+  const card = evt.target.closest(".card");
+  popupImageElement.src = evt.target.src;
+  popupImageElement.alt = evt.target.alt;
+  popupCaptionElement.textContent = card.textContent;
+  openModal(imagePopup);
+};
 
 // Закрытия нажатием на кнопки закрытия.
 closeButtons.forEach((button) => {
@@ -96,6 +109,24 @@ const escapeCloser = (evt) => {
   }
 };
 
+// Обрабатывает создание новой карточки
+const imageSrcInput = document.querySelector(".popup__input_type_url");
+const imageNameInput = document.querySelector(".popup__input_type_card-name");
+
+function handleAddCardFormSubmit(evt) {
+  evt.preventDefault();
+
+  const imageSrc = imageSrcInput.value;
+  const imageName = imageNameInput.value;
+
+  placesList.prepend(createCard(imageSrc, imageName, handleCardDelete, likeButtonHandleClick));
+
+  imageSrcInput.textContent = "";
+  imageNameInput.textContent = "";
+
+  cardAddFormElement.reset();
+}
+
 cardAddFormElement.addEventListener("submit", handleAddCardFormSubmit);
 
 // Логика работы submit для addCardPopup
@@ -114,4 +145,4 @@ popups.forEach(function (item) {
   item.classList.add("popup_is-animated");
 });
 
-export { escapeCloser };
+export { escapeCloser, popupOpener };
