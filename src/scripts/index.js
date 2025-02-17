@@ -60,6 +60,18 @@ closeButtons.forEach((button) => {
   });
 });
 
+// TODO: Придумать как сбрасывать формы на Esc "По правилам"
+// popupTypeEdit.addEventListener("keydown", (evt) => {
+//   if (evt.key === "Escape" || evt.key === "Esc") {
+//     resetProfileForm();
+//   }
+// });
+// addCardPopup.addEventListener("keydown", (evt) => {
+//   if (evt.key === "Escape" || evt.key === "Esc") {
+//     cardAddFormElement.reset();
+//   }
+// });
+
 // TODO:Привести в порядок, проверить на уязвимость формы -------------------------------------
 // Обрабытваем Submit в редакторе профиля -----------------------------------
 
@@ -94,21 +106,6 @@ const resetProfileForm = () => {
 // Вносим значение имени и рода деятельности в импуты на этапе загрузки страницы
 resetProfileForm();
 
-// Закрытие попапа по нажатию Esc(callback)
-const escapeCloser = (evt) => {
-  const modal = document.querySelector(".popup_is-opened");
-  if (evt.key === "Escape" || evt.key === "Esc") {
-    closeModal(modal);
-
-    if (modal.classList.contains("popup_type_edit")) {
-      resetProfileForm();
-    }
-    if (modal.classList.contains("popup_type_new-card")) {
-      cardAddFormElement.reset();
-    }
-  }
-};
-
 // Обрабатывает создание новой карточки
 const imageSrcInput = document.querySelector(".popup__input_type_url");
 const imageNameInput = document.querySelector(".popup__input_type_card-name");
@@ -142,4 +139,4 @@ popups.forEach(function (item) {
   item.classList.add("popup_is-animated");
 });
 
-export { escapeCloser, popupOpener };
+export { popupOpener };
