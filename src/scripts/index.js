@@ -121,9 +121,6 @@ function handleAddCardFormSubmit(evt) {
 
   placesList.prepend(createCard(imageSrc, imageName, handleCardDelete, likeButtonHandleClick));
 
-  imageSrcInput.textContent = "";
-  imageNameInput.textContent = "";
-
   cardAddFormElement.reset();
 }
 
