@@ -1,7 +1,7 @@
 // Закрытие попапа по нажатию Esc(callback)
 const escapeCloser = (evt) => {
-  const modal = document.querySelector(".popup_is-opened");
   if (evt.key === "Escape" || evt.key === "Esc") {
+    const modal = document.querySelector(".popup_is-opened");
     closeModal(modal);
   }
 };

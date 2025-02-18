@@ -10,6 +10,7 @@ const profileEditButton = document.querySelector("#profile-edit-button");
 const popupTypeAddCard = document.querySelector(".popup_type_new-card");
 const popupTypeEdit = document.querySelector(".popup_type_edit");
 const addCardForm = popupTypeAddCard.querySelector("#card-add-form");
+const profileEditForm = popupTypeEdit.querySelector("#profile-edit-form");
 const popups = document.querySelectorAll(".popup");
 
 const nameInput = popupTypeEdit.querySelector(".popup__input_type_name");
@@ -52,11 +53,10 @@ popups.forEach((popup) => {
 });
 
 // Функция открытия карточки
-const popupOpener = (evt) => {
-  const card = evt.target.closest(".card");
-  popupImageElement.src = evt.target.src;
-  popupImageElement.alt = evt.target.alt;
-  popupCaptionElement.textContent = card.textContent;
+const popupOpener = (imageSource, cardText) => {
+  popupImageElement.src = imageSource;
+  popupImageElement.alt = cardText;
+  popupCaptionElement.textContent = cardText;
   openModal(imagePopup);
 };
 
@@ -82,7 +82,7 @@ function handleProfileFormSubmit(evt) {
 }
 
 // Вызываем на функцию submit'a на форму редактирования профиля
-popupTypeEdit.addEventListener("submit", handleProfileFormSubmit);
+profileEditForm.addEventListener("submit", handleProfileFormSubmit);
 
 // Обрабатывает создание новой карточки
 function handleAddCardFormSubmit(evt) {
@@ -93,19 +93,19 @@ function handleAddCardFormSubmit(evt) {
 
   closeModal(popupTypeAddCard);
 
-  placesList.prepend(createCard(imageSrc, imageName, handleCardDelete, likeButtonHandleClick));
+  placesList.prepend(createCard(imageSrc, imageName, handleCardDelete, likeButtonHandleClick, popupOpener));
 }
+
+// Вызываем на функцию submit'a на форму добавления карточки
 
 addCardForm.addEventListener("submit", handleAddCardFormSubmit);
 
 // Добавление изначальных карточек на страницу
 initialCards.forEach((item) => {
-  placesList.append(createCard(item.src, item.name, handleCardDelete, likeButtonHandleClick));
+  placesList.append(createCard(item.src, item.name, handleCardDelete, likeButtonHandleClick, popupOpener));
 });
 
 // Класс анимации
 popups.forEach(function (item) {
   item.classList.add("popup_is-animated");
 });
-
-export { popupOpener };

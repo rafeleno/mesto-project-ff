@@ -1,7 +1,5 @@
-import { popupOpener } from "../index";
-
 //собирает карточку
-function createCard(imageSource, cardText, handleCardDelete, handleClick) {
+function createCard(imageSource, cardText, handleCardDelete, handleClick, popupOpener) {
   const cardTemplate = document.querySelector("#card-template").content;
   const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
   const cardDeleteButton = cardElement.querySelector(".card__delete-button");
@@ -14,7 +12,7 @@ function createCard(imageSource, cardText, handleCardDelete, handleClick) {
 
   cardDeleteButton.addEventListener("click", handleCardDelete);
   likeButton.addEventListener("click", handleClick);
-  img.addEventListener("click", popupOpener);
+  img.addEventListener("click", (evt) => popupOpener(imageSource, cardText));
 
   return cardElement;
 }
