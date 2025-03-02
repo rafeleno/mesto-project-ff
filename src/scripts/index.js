@@ -12,7 +12,6 @@ const popupTypeEdit = document.querySelector(".popup_type_edit");
 const addCardForm = popupTypeAddCard.querySelector("#card-add-form");
 const profileEditForm = popupTypeEdit.querySelector("#profile-edit-form");
 const popups = document.querySelectorAll(".popup");
-// Спасибо За Ревью! Удачи --------------------------------------------
 const nameInput = popupTypeEdit.querySelector(".popup__input_type_name");
 const jobInput = popupTypeEdit.querySelector(".popup__input_type_description");
 const profileTitle = document.querySelector(".profile__title");
