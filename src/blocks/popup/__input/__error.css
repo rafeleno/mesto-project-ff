@@ -1,0 +1,9 @@
+.popup__input__error {
+  margin: 0;
+  margin-bottom: 5px;
+  color: rgb(256 0 0);
+}
+
+.popup__input__error:last-of-type {
+  margin-bottom: 0;
+}
