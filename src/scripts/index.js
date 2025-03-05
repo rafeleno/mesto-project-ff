@@ -2,7 +2,7 @@ import "../pages/index.css";
 import { initialCards } from "./cards.js";
 import { openModal, closeModal } from "./components/modal.js";
 import { handleCardDelete, createCard, likeButtonHandleClick } from "./components/card.js";
-import { nameInputIsValid, aboutInputIsValid, placeNameInputIsValid, linkInputIsValid } from "./components/validation.js";
+import { enableValidation } from "./components/validation.js";
 
 const placesList = document.querySelector(".places__list");
 const closeButtons = document.querySelectorAll(".popup__close");
@@ -14,10 +14,17 @@ const addCardForm = popupTypeAddCard.querySelector("#card-add-form");
 const profileEditForm = popupTypeEdit.querySelector("#profile-edit-form");
 const popups = document.querySelectorAll(".popup");
 
+const profileSubmitButton = profileEditForm.querySelector(".popup__button");
+const cardAddSubmitButton = addCardForm.querySelector(".popup__button");
+
 const nameInput = popupTypeEdit.querySelector("#popup__input_type_name");
+const nameInputError = profileEditForm.querySelector(`.${nameInput.id}-error`);
 const aboutInput = popupTypeEdit.querySelector("#popup__input_type_description");
+const aboutInputError = profileEditForm.querySelector(`.${aboutInput.id}-error`);
 const imageSrcInput = document.querySelector("#popup__input_type_url");
+const imageSrcInputError = addCardForm.querySelector(`.${imageSrcInput.id}-error`);
 const imageNameInput = document.querySelector("#popup__input_type_card-name");
+const cardNameInputError = addCardForm.querySelector(`.${imageNameInput.id}-error`);
 
 const profileTitle = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
@@ -106,17 +113,34 @@ initialCards.forEach((item) => {
   placesList.append(createCard(item.src, item.name, handleCardDelete, likeButtonHandleClick, popupOpener));
 });
 
-// Валидация nameInput
-nameInput.addEventListener("input", nameInputIsValid);
+// // Валидация nameInput
+// nameInput.addEventListener("input", nameInputIsValid);
 
-// Валидация aboutInput
-aboutInput.addEventListener("input", aboutInputIsValid);
+// // Валидация aboutInput
+// aboutInput.addEventListener("input", aboutInputIsValid);
 
-// Валидация placeNameInput
-imageNameInput.addEventListener("input", placeNameInputIsValid);
+// // Валидация placeNameInput
+// imageNameInput.addEventListener("input", placeNameInputIsValid);
 
-// Валидация linkInput
-imageSrcInput.addEventListener("input", linkInputIsValid);
+// // Валидация linkInput
+// imageSrcInput.addEventListener("input", linkInputIsValid);
+
+const inputRegex = /^[a-zA-Zа-яА-ЯёЁ\s-]+$/;
+
+// Включаем валидацию
+enableValidation({
+  regex: inputRegex,
+  profileSubmitButton: profileSubmitButton,
+  nameInput: nameInput,
+  nameInputError: nameInputError,
+  aboutInput: aboutInput,
+  aboutInputError: aboutInputError,
+  cardAddSubmitButton: cardAddSubmitButton,
+  cardNameInput: imageNameInput,
+  cardNameInputError: cardNameInputError,
+  linkInput: imageSrcInput,
+  linkInputError: imageSrcInputError,
+});
 
 // Класс анимации
 popups.forEach(function (item) {
