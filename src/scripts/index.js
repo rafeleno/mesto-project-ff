@@ -76,7 +76,7 @@ closeButtons.forEach((button) => {
   });
 });
 
-// Обрабытваем Submit в редакторе профиля -----------------------------------
+// Обрабытваем Submit в редакторе профиля ----------------------------------------------
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
 
@@ -89,7 +89,7 @@ function handleProfileFormSubmit(evt) {
   closeModal(popupTypeEdit);
 }
 
-// Вызываем на функцию submit'a на форму редактирования профиля
+// Вызываем на функцию submit'a на форму редактирования профиля ------------------------
 profileEditForm.addEventListener("submit", handleProfileFormSubmit);
 
 // Обрабатывает создание новой карточки
@@ -104,7 +104,7 @@ function handleAddCardFormSubmit(evt) {
   placesList.prepend(createCard(imageSrc, imageName, handleCardDelete, likeButtonHandleClick, popupOpener));
 }
 
-// Вызываем на функцию submit'a на форму добавления карточки
+// Вызываем на функцию submit'a на форму добавления карточки --------------------------
 
 addCardForm.addEventListener("submit", handleAddCardFormSubmit);
 
@@ -113,21 +113,9 @@ initialCards.forEach((item) => {
   placesList.append(createCard(item.src, item.name, handleCardDelete, likeButtonHandleClick, popupOpener));
 });
 
-// // Валидация nameInput
-// nameInput.addEventListener("input", nameInputIsValid);
-
-// // Валидация aboutInput
-// aboutInput.addEventListener("input", aboutInputIsValid);
-
-// // Валидация placeNameInput
-// imageNameInput.addEventListener("input", placeNameInputIsValid);
-
-// // Валидация linkInput
-// imageSrcInput.addEventListener("input", linkInputIsValid);
-
 const inputRegex = /^[a-zA-Zа-яА-ЯёЁ\s-]+$/;
 
-// Включаем валидацию
+// Включаем валидацию всего
 enableValidation({
   regex: inputRegex,
   profileSubmitButton: profileSubmitButton,
