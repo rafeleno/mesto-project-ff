@@ -2,7 +2,7 @@ import "../pages/index.css";
 import { initialCards } from "./cards.js";
 import { openModal, closeModal } from "./components/modal.js";
 import { handleCardDelete, createCard, likeButtonHandleClick } from "./components/card.js";
-import { nameInputIsValid, aboutInputIsValid } from "./components/validation.js";
+import { nameInputIsValid, aboutInputIsValid, placeNameInputIsValid, linkInputIsValid } from "./components/validation.js";
 
 const placesList = document.querySelector(".places__list");
 const closeButtons = document.querySelectorAll(".popup__close");
@@ -13,17 +13,18 @@ const popupTypeEdit = document.querySelector(".popup_type_edit");
 const addCardForm = popupTypeAddCard.querySelector("#card-add-form");
 const profileEditForm = popupTypeEdit.querySelector("#profile-edit-form");
 const popups = document.querySelectorAll(".popup");
-const nameInput = popupTypeEdit.querySelector(".popup__input_type_name");
-const aboutInput = popupTypeEdit.querySelector(".popup__input_type_description");
+
+const nameInput = popupTypeEdit.querySelector("#popup__input_type_name");
+const aboutInput = popupTypeEdit.querySelector("#popup__input_type_description");
+const imageSrcInput = document.querySelector("#popup__input_type_url");
+const imageNameInput = document.querySelector("#popup__input_type_card-name");
+
 const profileTitle = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
 
 const imagePopup = document.querySelector(".popup_type_image");
 const popupImageElement = document.querySelector(".popup__image");
 const popupCaptionElement = document.querySelector(".popup__caption");
-
-const imageSrcInput = document.querySelector(".popup__input_type_url");
-const imageNameInput = document.querySelector(".popup__input_type_card-name");
 
 // Добавление открытия Popup'a при нажатии на соответсвующие кнопки
 profileEditButton.addEventListener("click", popupEditOpen);
@@ -106,14 +107,16 @@ initialCards.forEach((item) => {
 });
 
 // Валидация nameInput
-nameInput.addEventListener("input", (evt) => {
-  nameInputIsValid(nameInput);
-});
+nameInput.addEventListener("input", nameInputIsValid);
 
 // Валидация aboutInput
-aboutInput.addEventListener("input", (evt) => {
-  aboutInputIsValid(aboutInput);
-});
+aboutInput.addEventListener("input", aboutInputIsValid);
+
+// Валидация placeNameInput
+imageNameInput.addEventListener("input", placeNameInputIsValid);
+
+// Валидация linkInput
+imageSrcInput.addEventListener("input", linkInputIsValid);
 
 // Класс анимации
 popups.forEach(function (item) {

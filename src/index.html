@@ -35,10 +35,32 @@
           <button type="button" class="popup__close"></button>
           <h3 class="popup__title">Редактировать профиль</h3>
           <form class="popup__form" name="edit-profile" id="profile-edit-form" novalidate>
-            <input type="text" name="name" class="popup__input popup__input_type_name" placeholder="Имя" />
-            <span class="popup__input__error">example</span>
-            <input type="text" name="description" class="popup__input popup__input_type_description" placeholder="Занятие" />
-            <span class="popup__input__error">example</span>
+            <input
+              type="text"
+              name="name"
+              class="popup__input"
+              id="popup__input_type_name"
+              minlength="2"
+              maxlength="40"
+              placeholder="Имя"
+              data-miss="Вы пропустили это поле."
+              data-miss-regex="Текст может содержать только буквы, дефисы и пробелы."
+              data-too-short="Минимальное количество символов: 2. Длина текста сейчас:"
+            />
+            <span class="popup__input_type_name-error popup__input-error"></span>
+            <input
+              type="text"
+              name="description"
+              class="popup__input"
+              id="popup__input_type_description"
+              minlength="2"
+              maxlength="200"
+              data-miss="Вы пропустили это поле."
+              data-miss-regex="Текст может содержать только буквы, дефисы и пробелы."
+              data-too-short="Минимальное количество символов: 2. Длина текста сейчас:"
+              placeholder="Занятие"
+            />
+            <span class="popup__input_type_description-error popup__input-error"></span>
             <button type="submit" class="button popup__button">Сохранить</button>
           </form>
         </div>
@@ -48,10 +70,28 @@
           <button type="button" class="popup__close"></button>
           <h3 class="popup__title">Новое место</h3>
           <form class="popup__form" name="new-place" id="card-add-form" novalidate>
-            <input type="text" name="place-name" class="popup__input popup__input_type_card-name input-1" placeholder="Название" />
-            <span class="popup__input__error input-1-error">example</span>
-            <input type="url" name="link" class="popup__input popup__input_type_url input-2" placeholder="Ссылка на картинку" />
-            <span class="popup__input__error input-2-error">example</span>
+            <input
+              type="text"
+              name="place-name"
+              class="popup__input"
+              id="popup__input_type_card-name"
+              minlength="2"
+              maxlength="30"
+              placeholder="Название"
+              data-miss="Вы пропустили это поле."
+              data-too-short="Минимальное количество символов: 2. Длина текста сейчас:"
+            />
+            <span class="popup__input-error popup__input_type_card-name-error"></span>
+            <input
+              type="url"
+              name="link"
+              class="popup__input"
+              id="popup__input_type_url"
+              placeholder="Ссылка на картинку"
+              minlength="10"
+              data-mis-match="Введите адрес сайта."
+            />
+            <span class="popup__input-error popup__input_type_url-error"></span>
             <button type="submit" class="button popup__button">Сохранить</button>
           </form>
         </div>
