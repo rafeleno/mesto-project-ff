@@ -104,14 +104,16 @@
         </div>
       </div>
     </div>
-
     <template id="card-template">
       <li class="places__item card">
         <img class="card__image" src="<%=require('./images/avatar.jpg')%>" alt="Sample Image" />
         <button type="button" class="card__delete-button"></button>
         <div class="card__description">
           <h2 class="card__title"></h2>
-          <button type="button" class="card__like-button"></button>
+          <div class="card__like-button-container">
+            <button type="button" class="card__like-button"></button>
+            <span class="card__like-button-volume"></span>
+          </div>
         </div>
       </li>
     </template>

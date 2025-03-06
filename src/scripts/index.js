@@ -37,36 +37,107 @@ const imagePopup = document.querySelector(".popup_type_image");
 const popupImageElement = document.querySelector(".popup__image");
 const popupCaptionElement = document.querySelector(".popup__caption");
 
-// Забираем данные пользователя
-function fetchProfile() {
-  fetch("https://nomoreparties.co/v1/wff-cohort-33/users/me", {
+// // Забираем данные пользователя
+// function fetchProfile() {
+//   fetch("https://nomoreparties.co/v1/wff-cohort-33/users/me", {
+//     headers: {
+//       authorization: "017e0eb7-895d-414b-bf4c-a4ee4cf48a1b",
+//     },
+//   })
+//     .then((res) => res.json())
+//     .then((personData) => {
+//       profileTitle.textContent = personData.name;
+//       profileDescription.textContent = personData.about;
+//       profileAvatar.src = personData.avatar;
+//     });
+// }
+
+// // Забираем данные карточек
+// function fetchCards() {
+//   fetch("https://nomoreparties.co/v1/wff-cohort-33/cards", {
+//     headers: {
+//       authorization: "017e0eb7-895d-414b-bf4c-a4ee4cf48a1b",
+//     },
+//   })
+//     .then((res) => res.json())
+//     .then((cardsData) => {
+//       console.log(cardsData);
+//       cardsData.forEach((card) => {
+//         placesList.append(createCard(card.link, card.name, handleCardDelete, likeButtonHandleClick, popupOpener));
+//       });
+//     });
+// }
+
+//TODO: Раскидать fetch'и
+
+// Добавить карту
+function addCard({ name, link }) {
+  return fetch("https://nomoreparties.co/v1/wff-cohort-33/cards", {
+    method: "POST",
     headers: {
       authorization: "017e0eb7-895d-414b-bf4c-a4ee4cf48a1b",
+      "Content-Type": "application/json",
     },
-  })
-    .then((res) => res.json())
-    .then((personData) => {
-      profileTitle.textContent = personData.name;
-      profileDescription.textContent = personData.about;
-      profileAvatar.src = personData.avatar;
-    });
+    body: JSON.stringify({
+      name: name,
+      link: link,
+    }),
+  });
+}
+
+// Сменить данные профиля
+function changeProfile({ name, about }) {
+  return fetch("https://nomoreparties.co/v1/wff-cohort-33/users/me", {
+    method: "PATCH",
+    headers: {
+      authorization: "017e0eb7-895d-414b-bf4c-a4ee4cf48a1b",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      name: name,
+      about: about,
+    }),
+  });
+}
+
+// Забираем данные пользоваиеля
+function fetchProfile() {
+  return fetch("https://nomoreparties.co/v1/wff-cohort-33/users/me", {
+    headers: { authorization: "017e0eb7-895d-414b-bf4c-a4ee4cf48a1b" },
+  }).then((res) => res.json());
 }
 
 // Забираем данные карточек
 function fetchCards() {
-  fetch("https://nomoreparties.co/v1/wff-cohort-33/cards", {
-    headers: {
-      authorization: "017e0eb7-895d-414b-bf4c-a4ee4cf48a1b",
-    },
-  })
-    .then((res) => res.json())
-    .then((cardsData) => {
-      console.log(cardsData);
-      cardsData.forEach((card) => {
-        placesList.append(createCard(card.link, card.name, handleCardDelete, likeButtonHandleClick, popupOpener));
-      });
-    });
+  return fetch("https://nomoreparties.co/v1/wff-cohort-33/cards", {
+    headers: { authorization: "017e0eb7-895d-414b-bf4c-a4ee4cf48a1b" },
+  }).then((res) => res.json());
 }
+
+// Выполняем оба запроса
+Promise.all([fetchProfile(), fetchCards()])
+  .then(([personData, cardsData]) => {
+    // Обрабатываем данные профиля
+    profileTitle.textContent = personData.name;
+    profileDescription.textContent = personData.about;
+    profileAvatar.src = personData.avatar;
+
+    // Обрабатываем данные карточек
+    cardsData.forEach((card) => {
+      placesList.append(
+        createCard({
+          imageSource: card.link,
+          cardText: card.name,
+          likes: card.likes,
+          cardId: card._id,
+          handleCardDelete: handleCardDelete,
+          handleClick: likeButtonHandleClick,
+          popupOpener: popupOpener,
+        })
+      );
+    });
+  })
+  .catch((err) => console.error("Ошибка при загрузке данных:", err));
 
 // Добавление открытия Popup'a при нажатии на соответсвующие кнопки
 profileEditButton.addEventListener("click", popupEditOpen);
@@ -120,10 +191,12 @@ function handleProfileFormSubmit(evt) {
   evt.preventDefault();
 
   const name = nameInput.value;
-  const job = aboutInput.value;
+  const about = aboutInput.value;
+
+  changeProfile({ name: name, about: about });
 
   profileTitle.textContent = name;
-  profileDescription.textContent = job;
+  profileDescription.textContent = about;
   // resetProfileForm();
   closeModal(popupTypeEdit);
 }
@@ -138,9 +211,13 @@ function handleAddCardFormSubmit(evt) {
   const imageSrc = imageSrcInput.value;
   const imageName = imageNameInput.value;
 
+  addCard({ name: imageName, link: imageSrc });
+
   closeModal(popupTypeAddCard);
 
-  placesList.prepend(createCard(imageSrc, imageName, handleCardDelete, likeButtonHandleClick, popupOpener));
+  placesList.prepend(
+    createCard({ imageSource: imageSrc, cardText: imageName, handleCardDelete: handleCardDelete, handleClick: likeButtonHandleClick, popupOpener: popupOpener })
+  );
 }
 
 // Вызываем на функцию submit'a на форму добавления карточки --------------------------
