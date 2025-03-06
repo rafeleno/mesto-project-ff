@@ -1,8 +1,11 @@
 import "../pages/index.css";
-import { initialCards } from "./cards.js";
+// import { initialCards } from "./cards.js"; --- Legacy
 import { openModal, closeModal } from "./components/modal.js";
 import { handleCardDelete, createCard, likeButtonHandleClick } from "./components/card.js";
-import { enableValidation } from "./components/validation.js";
+import { enableValidation, clearValidation } from "./components/validation.js";
+
+// Токен: 017e0eb7-895d-414b-bf4c-a4ee4cf48a1b
+// Идентификатор группы: wff-cohort-33
 
 const placesList = document.querySelector(".places__list");
 const closeButtons = document.querySelectorAll(".popup__close");
@@ -24,14 +27,46 @@ const aboutInputError = profileEditForm.querySelector(`.${aboutInput.id}-error`)
 const imageSrcInput = document.querySelector("#popup__input_type_url");
 const imageSrcInputError = addCardForm.querySelector(`.${imageSrcInput.id}-error`);
 const imageNameInput = document.querySelector("#popup__input_type_card-name");
-const cardNameInputError = addCardForm.querySelector(`.${imageNameInput.id}-error`);
+const imageNameInputError = addCardForm.querySelector(`.${imageNameInput.id}-error`);
 
 const profileTitle = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
+const profileAvatar = document.querySelector(".avatar");
 
 const imagePopup = document.querySelector(".popup_type_image");
 const popupImageElement = document.querySelector(".popup__image");
 const popupCaptionElement = document.querySelector(".popup__caption");
+
+// Забираем данные пользователя
+function fetchProfile() {
+  fetch("https://nomoreparties.co/v1/wff-cohort-33/users/me", {
+    headers: {
+      authorization: "017e0eb7-895d-414b-bf4c-a4ee4cf48a1b",
+    },
+  })
+    .then((res) => res.json())
+    .then((personData) => {
+      profileTitle.textContent = personData.name;
+      profileDescription.textContent = personData.about;
+      profileAvatar.src = personData.avatar;
+    });
+}
+
+// Забираем данные карточек
+function fetchCards() {
+  fetch("https://nomoreparties.co/v1/wff-cohort-33/cards", {
+    headers: {
+      authorization: "017e0eb7-895d-414b-bf4c-a4ee4cf48a1b",
+    },
+  })
+    .then((res) => res.json())
+    .then((cardsData) => {
+      console.log(cardsData);
+      cardsData.forEach((card) => {
+        placesList.append(createCard(card.link, card.name, handleCardDelete, likeButtonHandleClick, popupOpener));
+      });
+    });
+}
 
 // Добавление открытия Popup'a при нажатии на соответсвующие кнопки
 profileEditButton.addEventListener("click", popupEditOpen);
@@ -43,11 +78,15 @@ function popupEditOpen(evt) {
 
   nameInput.value = profileTitle.textContent;
   aboutInput.value = profileDescription.textContent;
+  clearValidation({ input: nameInput, error: nameInputError, submit: cardAddSubmitButton });
+  clearValidation({ input: aboutInput, error: aboutInputError, submit: cardAddSubmitButton });
 }
 // логика Для popupTypeAddCard
 function popupTypeAddCardOpen(evt) {
   openModal(popupTypeAddCard);
 
+  clearValidation({ input: imageSrcInput, error: imageSrcInputError, submit: cardAddSubmitButton });
+  clearValidation({ input: imageNameInput, error: imageNameInputError, submit: cardAddSubmitButton });
   addCardForm.reset();
 }
 
@@ -108,10 +147,12 @@ function handleAddCardFormSubmit(evt) {
 
 addCardForm.addEventListener("submit", handleAddCardFormSubmit);
 
-// Добавление изначальных карточек на страницу
-initialCards.forEach((item) => {
-  placesList.append(createCard(item.src, item.name, handleCardDelete, likeButtonHandleClick, popupOpener));
-});
+// Legacy code ////////////////////////////////
+//
+// (Добавление изначальных карточек на страницу)
+// initialCards.forEach((item) => {
+//   placesList.append(createCard(item.src, item.name, handleCardDelete, likeButtonHandleClick, popupOpener));
+// });
 
 const inputRegex = /^[a-zA-Zа-яА-ЯёЁ\s-]+$/;
 
@@ -125,7 +166,7 @@ enableValidation({
   aboutInputError: aboutInputError,
   cardAddSubmitButton: cardAddSubmitButton,
   cardNameInput: imageNameInput,
-  cardNameInputError: cardNameInputError,
+  cardNameInputError: imageNameInputError,
   linkInput: imageSrcInput,
   linkInputError: imageSrcInputError,
 });
@@ -134,3 +175,6 @@ enableValidation({
 popups.forEach(function (item) {
   item.classList.add("popup_is-animated");
 });
+
+fetchProfile();
+fetchCards();

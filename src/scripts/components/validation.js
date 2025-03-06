@@ -1,11 +1,22 @@
-const formIsValid = (form) => {
-  const inputs = form.querySelectorAll(".popup__input");
-  if (inputs.some((input) => input.validity.valid)) {
-    return true;
-  }
+const clearValidation = ({ input, error, submit }) => {
+  input.setCustomValidity("");
+  input.classList.remove("popup__input-error-is-active");
+  error.textContent = "";
+  submit.disabled = false;
+
+  //  Добрый день. Я не понял что означает "validationConfig", ведь и при открытии и при вводе
+  //  нужно очищать все поля и кнопку, а значит нет разных сценариев, действия для которых нужно было бы
+  //  настраивать конфигом, либо я их не нашел. Пожалуйста оставьте комментарий касательно этого нюанса из ТЗ,
+  //  чтобы я ясно понимал суть. Потому что в ТЗ не описано занчение "validationConfig". И еще: в ТЗ просят
+  //  указать форму первым аргументом, но я не понимаю зачем. Можно искать элементы от формы, но они и так
+  //  уже всегда найдены и их можно просто передать в аргументы, получается лишние действия.
+
+  //  Вы можете не отвечать и не комментировать это, так как есть пункт о том, что нельзя обращаться
+  //  к Ревьюеру с вопросами, но я просто пытаюсь объяснить код и указать на неясное ТЗ, по моему мнению.
+  //  Я продулирую эотот вопрос наставнику. Всего доброго!
 };
 
-// TODO: Натсроить осичтку валидов
+// TODO: Натсроить осичтку валидов (!она должн использоваться при всех олчистках валидов)
 
 const enableValidation = ({
   regex,
@@ -25,9 +36,9 @@ const enableValidation = ({
     // TODO: Переделать позиционирование
 
     // Сбрасываем предыдущую ошибку
-    nameInput.setCustomValidity("");
-    nameInputError.textContent = "";
-    profileSubmitButton.disabled = false;
+    // nameInput.setCustomValidity("");
+    // nameInputError.textContent = "";
+    clearValidation({ input: nameInput, error: nameInputError, submit: profileSubmitButton });
 
     // Проверяем на отсутсвие текста
     if (nameInput.value.length === 0) {
@@ -49,7 +60,7 @@ const enableValidation = ({
       nameInputError.textContent = nameInput.validationMessage;
       profileSubmitButton.disabled = true;
     } else {
-      nameInput.classList.remove("popup__input-error-is-active");
+      clearValidation({ input: nameInput, error: nameInputError, submit: profileSubmitButton });
     }
   };
 
@@ -58,9 +69,10 @@ const enableValidation = ({
     // TODO: Переделать позиционирование
 
     // Сбрасываем предыдущую ошибку
-    aboutInput.setCustomValidity("");
-    aboutInputError.textContent = "";
-    profileSubmitButton.disabled = false;
+    // aboutInput.setCustomValidity("");
+    // aboutInputError.textContent = "";
+    // profileSubmitButton.disabled = false;
+    clearValidation({ input: aboutInput, error: aboutInputError, submit: profileSubmitButton });
 
     // Проверяем на отсутсвие текста
     if (aboutInput.value.length === 0) {
@@ -81,7 +93,7 @@ const enableValidation = ({
       aboutInputError.textContent = aboutInput.validationMessage;
       profileSubmitButton.disabled = true;
     } else {
-      aboutInput.classList.remove("popup__input-error-is-active");
+      clearValidation({ input: aboutInput, error: aboutInputError, submit: profileSubmitButton });
     }
   };
 
@@ -90,9 +102,10 @@ const enableValidation = ({
     // TODO: Переделать позиционирование
 
     // Сбрасываем предыдущую ошибку
-    cardNameInput.setCustomValidity("");
-    cardNameInputError.textContent = "";
-    cardAddSubmitButton.disabled = false;
+    // cardNameInput.setCustomValidity("");
+    // cardNameInputError.textContent = "";
+    // cardAddSubmitButton.disabled = false;
+    clearValidation({ input: cardNameInput, error: cardNameInputError, submit: cardAddSubmitButton });
 
     // Проверяем на отсутсвие текста
     if (cardNameInput.value.length === 0) {
@@ -108,16 +121,18 @@ const enableValidation = ({
       cardNameInputError.textContent = cardNameInput.validationMessage;
       cardAddSubmitButton.disabled = true;
     } else {
-      cardNameInput.classList.remove("popup__input-error-is-active");
+      // cardNameInput.classList.remove("popup__input-error-is-active");
+      clearValidation({ input: cardNameInput, error: cardNameInputError, submit: cardAddSubmitButton });
     }
   };
 
   // Валидация linkInput ---------------------------------------------
   const linkInputIsValid = (evt) => {
     // Сбрасываем предыдущую ошибку
-    linkInput.setCustomValidity("");
-    linkInputError.textContent = "";
-    cardAddSubmitButton.disabled = false;
+    // linkInput.setCustomValidity("");
+    // linkInputError.textContent = "";
+    // cardAddSubmitButton.disabled = false;
+    clearValidation({ input: linkInput, error: linkInputError, submit: cardAddSubmitButton });
 
     // Валидация URL
     if (linkInput.validity.typeMismatch) {
@@ -130,29 +145,22 @@ const enableValidation = ({
       linkInputError.textContent = linkInput.validationMessage;
       cardAddSubmitButton.disabled = true;
     } else {
-      linkInput.classList.remove("popup__input-error-is-active");
+      // linkInput.classList.remove("popup__input-error-is-active");
+      clearValidation({ input: linkInput, error: linkInputError, submit: cardAddSubmitButton });
     }
   };
 
-  // Валидация nameInput
+  // Вешаем слушатели валидации nameInput
   nameInput.addEventListener("input", nameInputIsValid);
 
-  // Валидация aboutInput
+  // Вешаем слушатели валидации aboutInput
   aboutInput.addEventListener("input", aboutInputIsValid);
 
-  // Валидация placeNameInput
+  // Вешаем слушатели валидации placeNameInput
   cardNameInput.addEventListener("input", placeNameInputIsValid);
 
-  // Валидация linkInput
+  // Вешаем слушатели валидации linkInput
   linkInput.addEventListener("input", linkInputIsValid);
 };
 
-const showInputError = (error) => {
-  error.classList.add(".popup__input__error-ia-active");
-};
-
-const hideInputError = (error) => {
-  error.classList.remove(".popup__input__error-ia-active");
-};
-
-export { enableValidation };
+export { enableValidation, clearValidation };
