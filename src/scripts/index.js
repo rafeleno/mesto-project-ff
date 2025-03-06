@@ -117,6 +117,8 @@ function fetchCards() {
 // Выполняем оба запроса
 Promise.all([fetchProfile(), fetchCards()])
   .then(([personData, cardsData]) => {
+    const myId = personData._id;
+
     // Обрабатываем данные профиля
     profileTitle.textContent = personData.name;
     profileDescription.textContent = personData.about;
@@ -124,6 +126,10 @@ Promise.all([fetchProfile(), fetchCards()])
 
     // Обрабатываем данные карточек
     cardsData.forEach((card) => {
+      //Булевый индикатор мы/не мы создатель карты
+      const myCardDeleteIsValid = myId == card.owner._id;
+      console.log(myCardDeleteIsValid);
+
       placesList.append(
         createCard({
           imageSource: card.link,
@@ -131,8 +137,10 @@ Promise.all([fetchProfile(), fetchCards()])
           likes: card.likes,
           cardId: card._id,
           handleCardDelete: handleCardDelete,
+          removeHandleDelete: myCardDeleteIsValid,
           handleClick: likeButtonHandleClick,
           popupOpener: popupOpener,
+          ownerId: card.owner._id,
         })
       );
     });

@@ -1,5 +1,5 @@
 //собирает карточку
-function createCard({ imageSource, cardText, likes, cardId, handleCardDelete, handleClick, popupOpener }) {
+function createCard({ imageSource, cardText, likes, cardId, handleCardDelete, removeHandleDelete, handleClick, popupOpener, ownerId }) {
   const cardTemplate = document.querySelector("#card-template").content;
   const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
   const cardDeleteButton = cardElement.querySelector(".card__delete-button");
@@ -11,10 +11,17 @@ function createCard({ imageSource, cardText, likes, cardId, handleCardDelete, ha
   img.alt = cardText;
   likesVolume.textContent = Array.isArray(likes) ? likes.length : "0";
 
-  cardElement.id = cardId;
+  cardElement.dataset.cardId = cardId;
+  // Назначаю ownerId, елси оно есть
+  ownerId ? (cardElement.dataset.ownerId = ownerId) : "";
   cardElement.querySelector(".card__title").textContent = cardText;
 
-  cardDeleteButton.addEventListener("click", handleCardDelete);
+  // Проверяем на то, что мы создали карту
+  if (!removeHandleDelete) {
+    cardDeleteButton.remove();
+  } else {
+    cardDeleteButton.addEventListener("click", handleCardDelete);
+  }
   likeButton.addEventListener("click", handleClick);
   img.addEventListener("click", (evt) => popupOpener(imageSource, cardText));
 
@@ -39,7 +46,7 @@ function deleteCard(cardId) {
 //удаляет карточку
 function handleCardDelete(evt) {
   const card = evt.target.closest(".card");
-  deleteCard(card.id);
+  deleteCard(card.dataset.cardId);
   card.remove();
 }
 
