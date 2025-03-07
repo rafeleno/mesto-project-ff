@@ -70,13 +70,14 @@ function changeProfile({ name, about }) {
 
 // Проверка на лайк
 function isWeLike(cardId) {
-  Promise.all([fetchProfile(), fetchCard(cardId)]).then(([personData, cardData]) => {
-    return cardData.likes.includes(personData._id);
+  return Promise.all([fetchProfile(), fetchCard(cardId)]).then(([personData, cardData]) => {
+    return cardData.likes.some((person) => {
+      return person._id === personData._id;
+    });
   });
 }
 
-//TODO: Ничего не рабоатвет работает
-// Забираем данные пользоваиеля
+// Забираем данные пользователя
 function fetchProfile() {
   return fetch("https://nomoreparties.co/v1/wff-cohort-33/users/me", {
     headers: { authorization: "017e0eb7-895d-414b-bf4c-a4ee4cf48a1b" },
@@ -92,10 +93,15 @@ function fetchCards() {
 
 // Забираем данные карты по Id
 function fetchCard(cardId) {
-  fetch(`https://nomoreparties.co/v1/wff-cohort-33/cards/${cardId}`, {
-    headers: { authorization: "017e0eb7-895d-414b-bf4c-a4ee4cf48a1b" },
-  }).then((res) => res.json());
+  return fetchCards().then((cards) => cards.find((card) => card._id === cardId)); // Фильтрация по ID, так как сервер не дает одну карту
 }
+
+// // Тест вызова функции
+// isWeLike("someCardId").then((liked) => {
+//   console.log(liked ? "Лайкнули" : "Не лайкнули");
+// }).catch((err) => {
+//   console.error("Ошибка:", err);
+// });
 
 // Выполняем оба запроса
 Promise.all([fetchProfile(), fetchCards()])

@@ -25,11 +25,16 @@ function createCard({ imageSource, cardText, likes, cardId, handleCardDelete, re
   } else {
     cardDeleteButton.remove();
   }
-  if (isWeLike(cardId)) {
-    likeButton.classList.add("card__like-button_is-active");
-  } else {
-    likeButton.classList.remove("card__like-button_is-active");
-  }
+
+  //Ставим лайк, если он "Есть"
+  isWeLike(cardId).then((isLiked) => {
+    if (isLiked) {
+      likeButton.classList.add("card__like-button_is-active");
+    } else {
+      likeButton.classList.remove("card__like-button_is-active");
+    }
+  });
+
   likeButton.addEventListener("click", handleClick);
   img.addEventListener("click", (evt) => popupOpener(imageSource, cardText));
 
