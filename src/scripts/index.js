@@ -75,6 +75,7 @@ function isWeLike(cardId) {
   });
 }
 
+//TODO: Ничего не рабоатвет работает
 // Забираем данные пользоваиеля
 function fetchProfile() {
   return fetch("https://nomoreparties.co/v1/wff-cohort-33/users/me", {
