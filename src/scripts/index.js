@@ -37,37 +37,6 @@ const imagePopup = document.querySelector(".popup_type_image");
 const popupImageElement = document.querySelector(".popup__image");
 const popupCaptionElement = document.querySelector(".popup__caption");
 
-// // Забираем данные пользователя
-// function fetchProfile() {
-//   fetch("https://nomoreparties.co/v1/wff-cohort-33/users/me", {
-//     headers: {
-//       authorization: "017e0eb7-895d-414b-bf4c-a4ee4cf48a1b",
-//     },
-//   })
-//     .then((res) => res.json())
-//     .then((personData) => {
-//       profileTitle.textContent = personData.name;
-//       profileDescription.textContent = personData.about;
-//       profileAvatar.src = personData.avatar;
-//     });
-// }
-
-// // Забираем данные карточек
-// function fetchCards() {
-//   fetch("https://nomoreparties.co/v1/wff-cohort-33/cards", {
-//     headers: {
-//       authorization: "017e0eb7-895d-414b-bf4c-a4ee4cf48a1b",
-//     },
-//   })
-//     .then((res) => res.json())
-//     .then((cardsData) => {
-//       console.log(cardsData);
-//       cardsData.forEach((card) => {
-//         placesList.append(createCard(card.link, card.name, handleCardDelete, likeButtonHandleClick, popupOpener));
-//       });
-//     });
-// }
-
 //TODO: Раскидать fetch'и
 
 // Добавить карту
@@ -128,7 +97,6 @@ Promise.all([fetchProfile(), fetchCards()])
     cardsData.forEach((card) => {
       //Булевый индикатор мы/не мы создатель карты
       const myCardDeleteIsValid = myId == card.owner._id;
-      console.log(myCardDeleteIsValid);
 
       placesList.append(
         createCard({
@@ -215,21 +183,37 @@ profileEditForm.addEventListener("submit", handleProfileFormSubmit);
 // Обрабатывает создание новой карточки
 function handleAddCardFormSubmit(evt) {
   evt.preventDefault();
-
   const imageSrc = imageSrcInput.value;
   const imageName = imageNameInput.value;
 
-  addCard({ name: imageName, link: imageSrc });
+  addCard({ name: imageName, link: imageSrc })
+    .then((res) => {
+      if (!res.ok) {
+        return Promise.reject(`Ошибка: ${res.status}`);
+      }
+      return res.json();
+    })
+    .then((card) => {
+      placesList.prepend(
+        createCard({
+          imageSource: imageSrc,
+          cardText: imageName,
+          cardId: card._id,
+          handleCardDelete: handleCardDelete,
+          removeHandleDelete: true,
+          handleClick: likeButtonHandleClick,
+          popupOpener: popupOpener,
+          ownerId: card.owner._id,
+        })
+      );
+      closeModal(popupTypeAddCard);
+    })
+    .catch((err) => console.error("Ошибка при добавлении карточки:", err));
 
-  closeModal(popupTypeAddCard);
-
-  placesList.prepend(
-    createCard({ imageSource: imageSrc, cardText: imageName, handleCardDelete: handleCardDelete, handleClick: likeButtonHandleClick, popupOpener: popupOpener })
-  );
+  // Это все для того, чтобы карту можно было сразу удалить с сервера, не обновляя сраницы
 }
 
 // Вызываем на функцию submit'a на форму добавления карточки --------------------------
-
 addCardForm.addEventListener("submit", handleAddCardFormSubmit);
 
 // Legacy code ////////////////////////////////

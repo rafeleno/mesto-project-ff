@@ -11,16 +11,18 @@ function createCard({ imageSource, cardText, likes, cardId, handleCardDelete, re
   img.alt = cardText;
   likesVolume.textContent = Array.isArray(likes) ? likes.length : "0";
 
-  cardElement.dataset.cardId = cardId;
+  // Назначаю cardId, елси оно есть
+  cardId ? (cardElement.dataset.cardId = cardId) : "";
   // Назначаю ownerId, елси оно есть
   ownerId ? (cardElement.dataset.ownerId = ownerId) : "";
+
   cardElement.querySelector(".card__title").textContent = cardText;
 
   // Проверяем на то, что мы создали карту
-  if (!removeHandleDelete) {
-    cardDeleteButton.remove();
-  } else {
+  if (removeHandleDelete) {
     cardDeleteButton.addEventListener("click", handleCardDelete);
+  } else {
+    cardDeleteButton.remove();
   }
   likeButton.addEventListener("click", handleClick);
   img.addEventListener("click", (evt) => popupOpener(imageSource, cardText));
