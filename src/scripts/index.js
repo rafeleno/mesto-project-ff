@@ -6,7 +6,6 @@ import { enableValidation, clearValidation } from "./components/validation.js";
 
 // Токен: 017e0eb7-895d-414b-bf4c-a4ee4cf48a1b
 // Идентификатор группы: wff-cohort-33
-
 const placesList = document.querySelector(".places__list");
 const closeButtons = document.querySelectorAll(".popup__close");
 const profileAddButton = document.querySelector(".profile__add-button");
@@ -69,6 +68,13 @@ function changeProfile({ name, about }) {
   });
 }
 
+// Проверка на лайк
+function isWeLike(cardId) {
+  Promise.all([fetchProfile(), fetchCard(cardId)]).then(([personData, cardData]) => {
+    return cardData.likes.includes(personData._id);
+  });
+}
+
 // Забираем данные пользоваиеля
 function fetchProfile() {
   return fetch("https://nomoreparties.co/v1/wff-cohort-33/users/me", {
@@ -79,6 +85,13 @@ function fetchProfile() {
 // Забираем данные карточек
 function fetchCards() {
   return fetch("https://nomoreparties.co/v1/wff-cohort-33/cards", {
+    headers: { authorization: "017e0eb7-895d-414b-bf4c-a4ee4cf48a1b" },
+  }).then((res) => res.json());
+}
+
+// Забираем данные карты по Id
+function fetchCard(cardId) {
+  fetch(`https://nomoreparties.co/v1/wff-cohort-33/cards/${cardId}`, {
     headers: { authorization: "017e0eb7-895d-414b-bf4c-a4ee4cf48a1b" },
   }).then((res) => res.json());
 }
@@ -107,6 +120,7 @@ Promise.all([fetchProfile(), fetchCards()])
           handleCardDelete: handleCardDelete,
           removeHandleDelete: myCardDeleteIsValid,
           handleClick: likeButtonHandleClick,
+          isWeLike: isWeLike,
           popupOpener: popupOpener,
           ownerId: card.owner._id,
         })
