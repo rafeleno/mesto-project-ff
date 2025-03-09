@@ -1,3 +1,5 @@
+import { closeModal, openModal } from "./modal";
+
 //собирает карточку
 function createCard({ imageSource, cardText, likes, cardId, handleCardDelete, removeHandleDelete, handleClick, isWeLike, popupOpener, ownerId }) {
   const cardTemplate = document.querySelector("#card-template").content;
@@ -97,10 +99,22 @@ function deleteCard(cardId) {
 }
 
 //удаляет карточку
+const popupTypeCardDelete = document.querySelector(".popup_type_cardDelete");
+const cardDeleteForm = document.querySelector("#card-delete-form");
+
 function handleCardDelete(evt) {
+  openModal(popupTypeCardDelete);
   const card = evt.target.closest(".card");
-  deleteCard(card.dataset.cardId);
-  card.remove();
+
+  // Я решил создавать слушатель каждый раз потому что, иначе не вышло передать конкретную
+  // карту в функцию
+  cardDeleteForm.addEventListener("submit", (evt) => {
+    evt.preventDefault();
+
+    deleteCard(card.dataset.cardId);
+    closeModal(popupTypeCardDelete);
+    card.remove();
+  });
 }
 
 export { handleCardDelete, createCard, likeButtonHandleClick };

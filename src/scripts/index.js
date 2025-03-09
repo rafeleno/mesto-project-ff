@@ -6,22 +6,31 @@ import { enableValidation, clearValidation } from "./components/validation.js";
 
 // Токен: 017e0eb7-895d-414b-bf4c-a4ee4cf48a1b
 // Идентификатор группы: wff-cohort-33
+
+// Лист картинок
 const placesList = document.querySelector(".places__list");
-const closeButtons = document.querySelectorAll(".popup__close");
+// Кнопки открытия Popup'ов
 const profileAddButton = document.querySelector(".profile__add-button");
 const profileEditButton = document.querySelector("#profile-edit-button");
+const avatarEditElement = document.querySelector(".avatar_edit-element");
+// Кнопки закрытия
+const closeButtons = document.querySelectorAll(".popup__close");
+// Popups, непосредственно
 const popupTypeAddCard = document.querySelector(".popup_type_new-card");
 const popupTypeEdit = document.querySelector(".popup_type_edit");
 const popupTypeAvatar = document.querySelector(".popup_type_avatar");
+
+const popups = document.querySelectorAll(".popup");
+// Формы
 const addCardForm = popupTypeAddCard.querySelector("#card-add-form");
 const profileEditForm = popupTypeEdit.querySelector("#profile-edit-form");
 const avatarEditForm = popupTypeAvatar.querySelector("#avatar-form");
-const popups = document.querySelectorAll(".popup");
-
+// Submit'ы
 const profileSubmitButton = profileEditForm.querySelector(".popup__button");
 const cardAddSubmitButton = addCardForm.querySelector(".popup__button");
 const avatarSubmitButton = addCardForm.querySelector(".popup__button");
 
+// 1000 и 1 Input
 const nameInput = popupTypeEdit.querySelector("#popup__input_type_name");
 const nameInputError = profileEditForm.querySelector(`.${nameInput.id}-error`);
 const aboutInput = popupTypeEdit.querySelector("#popup__input_type_description");
@@ -32,19 +41,18 @@ const imageNameInput = document.querySelector("#popup__input_type_card-name");
 const imageNameInputError = addCardForm.querySelector(`.${imageNameInput.id}-error`);
 const avatarInput = avatarEditForm.querySelector("#popup__input_type_avatar");
 const avatarInputInputError = avatarEditForm.querySelector(`.${avatarInput.id}-error`);
-
+//Header
 const profileTitle = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
 const profileAvatar = document.querySelector(".avatar");
-const avatarEditElement = document.querySelector(".avatar_edit-element");
-
+// Попапы картинок + элементы, отдельно
 const imagePopup = document.querySelector(".popup_type_image");
 const popupImageElement = document.querySelector(".popup__image");
 const popupCaptionElement = document.querySelector(".popup__caption");
 
 //TODO: Раскидать fetch'и
 
-// Замена аватора
+// Замена аватара
 function changeAvatar(avatarLink) {
   return fetch("https://nomoreparties.co/v1/wff-cohort-33/users/me/avatar", {
     method: "PATCH",
