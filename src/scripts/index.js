@@ -222,13 +222,20 @@ function handleProfileFormSubmit(evt) {
 
   const name = nameInput.value;
   const about = aboutInput.value;
+  profileSubmitButton.textContent = "Сохраняем...";
 
-  changeProfile({ name: name, about: about });
+  changeProfile({ name: name, about: about })
+    .then((res) => res.json())
+    .then((profileData) => {
+      console.log(profileData);
 
-  profileTitle.textContent = name;
-  profileDescription.textContent = about;
-  // resetProfileForm();
-  closeModal(popupTypeEdit);
+      profileTitle.textContent = profileData.name;
+      profileDescription.textContent = profileData.about;
+    })
+    .finally(() => {
+      profileSubmitButton.textContent = "Сохранить";
+      closeModal(popupTypeEdit);
+    });
 }
 
 // Вызываем на функцию submit'a на форму редактирования профиля ------------------------
