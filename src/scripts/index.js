@@ -12,12 +12,15 @@ const profileAddButton = document.querySelector(".profile__add-button");
 const profileEditButton = document.querySelector("#profile-edit-button");
 const popupTypeAddCard = document.querySelector(".popup_type_new-card");
 const popupTypeEdit = document.querySelector(".popup_type_edit");
+const popupTypeAvatar = document.querySelector(".popup_type_avatar");
 const addCardForm = popupTypeAddCard.querySelector("#card-add-form");
 const profileEditForm = popupTypeEdit.querySelector("#profile-edit-form");
+const avatarEditForm = popupTypeAvatar.querySelector("#avatar-form");
 const popups = document.querySelectorAll(".popup");
 
 const profileSubmitButton = profileEditForm.querySelector(".popup__button");
 const cardAddSubmitButton = addCardForm.querySelector(".popup__button");
+const cardAvatarSubmitButton = addCardForm.querySelector(".popup__button");
 
 const nameInput = popupTypeEdit.querySelector("#popup__input_type_name");
 const nameInputError = profileEditForm.querySelector(`.${nameInput.id}-error`);
@@ -27,16 +30,33 @@ const imageSrcInput = document.querySelector("#popup__input_type_url");
 const imageSrcInputError = addCardForm.querySelector(`.${imageSrcInput.id}-error`);
 const imageNameInput = document.querySelector("#popup__input_type_card-name");
 const imageNameInputError = addCardForm.querySelector(`.${imageNameInput.id}-error`);
+const avatarInput = avatarEditForm.querySelector("#popup__input_type_avatar");
+const avatarInputInputError = avatarEditForm.querySelector(`.${avatarInput.id}-error`);
 
 const profileTitle = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
 const profileAvatar = document.querySelector(".avatar");
+const avatarEditElement = document.querySelector(".avatar_edit-element");
 
 const imagePopup = document.querySelector(".popup_type_image");
 const popupImageElement = document.querySelector(".popup__image");
 const popupCaptionElement = document.querySelector(".popup__caption");
 
 //TODO: Раскидать fetch'и
+
+// Замена аватора
+function changeAvatar(avatarLink) {
+  return fetch("https://nomoreparties.co/v1/wff-cohort-33/users/me/avatar", {
+    method: "PATCH",
+    headers: {
+      authorization: "017e0eb7-895d-414b-bf4c-a4ee4cf48a1b",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      avatar: avatarLink,
+    }),
+  });
+}
 
 // Добавить карту
 function addCard({ name, link }) {
@@ -96,13 +116,6 @@ function fetchCard(cardId) {
   return fetchCards().then((cards) => cards.find((card) => card._id === cardId)); // Фильтрация по ID, так как сервер не дает одну карту
 }
 
-// // Тест вызова функции
-// isWeLike("someCardId").then((liked) => {
-//   console.log(liked ? "Лайкнули" : "Не лайкнули");
-// }).catch((err) => {
-//   console.error("Ошибка:", err);
-// });
-
 // Выполняем оба запроса
 Promise.all([fetchProfile(), fetchCards()])
   .then(([personData, cardsData]) => {
@@ -136,11 +149,15 @@ Promise.all([fetchProfile(), fetchCards()])
   })
   .catch((err) => console.error("Ошибка при загрузке данных:", err));
 
+// --------------------------------------------------------------------------- fetch'и кончились
+
 // Добавление открытия Popup'a при нажатии на соответсвующие кнопки
 profileEditButton.addEventListener("click", popupEditOpen);
 profileAddButton.addEventListener("click", popupTypeAddCardOpen);
+avatarEditElement.addEventListener("click", popupTypeAvatarOpen);
+// avatarEditElement.addEventListener("click", );
 
-// логика Для popupTypeEdit
+// логика открытия для popupTypeEdit
 function popupEditOpen(evt) {
   openModal(popupTypeEdit);
 
@@ -149,13 +166,21 @@ function popupEditOpen(evt) {
   clearValidation({ input: nameInput, error: nameInputError, submit: cardAddSubmitButton });
   clearValidation({ input: aboutInput, error: aboutInputError, submit: cardAddSubmitButton });
 }
-// логика Для popupTypeAddCard
+// логика открытия для popupTypeAddCard
 function popupTypeAddCardOpen(evt) {
   openModal(popupTypeAddCard);
 
   clearValidation({ input: imageSrcInput, error: imageSrcInputError, submit: cardAddSubmitButton });
   clearValidation({ input: imageNameInput, error: imageNameInputError, submit: cardAddSubmitButton });
   addCardForm.reset();
+}
+
+// логика открытия для popupTypeAvatar
+function popupTypeAvatarOpen(evt) {
+  openModal(popupTypeAvatar);
+
+  clearValidation({ input: avatarInput, error: avatarInputInputError, submit: cardAvatarSubmitButton });
+  avatarEditForm.reset();
 }
 
 //закрытие popup по кажатию на overlay
@@ -223,6 +248,7 @@ function handleAddCardFormSubmit(evt) {
           handleCardDelete: handleCardDelete,
           removeHandleDelete: true,
           handleClick: likeButtonHandleClick,
+          isWeLike: isWeLike,
           popupOpener: popupOpener,
           ownerId: card.owner._id,
         })
@@ -237,6 +263,48 @@ function handleAddCardFormSubmit(evt) {
 // Вызываем на функцию submit'a на форму добавления карточки --------------------------
 addCardForm.addEventListener("submit", handleAddCardFormSubmit);
 
+// Обработка submit'a ---
+
+// // TODO: Аватар не загрудается сразу
+// function handleAvatarEditFormSubmit(evt) {
+//   evt.preventDefault();
+//   return changeAvatar(avatarInput.value)
+//     .then((res) => {
+//       console.log(res.url);
+
+//       profileAvatar.src = res.url;
+//     })
+//     .finally(() => {
+//       closeModal(popupTypeAvatar);
+//     });
+// }
+
+function handleAvatarEditFormSubmit(evt) {
+  evt.preventDefault();
+
+  changeAvatar(avatarInput.value)
+    .then((res) => {
+      // Создаём новое изображение, чтобы избежать кэша
+      const newImage = new Image();
+      newImage.src = res.url;
+
+      newImage.onload = () => {
+        profileAvatar.src = newImage.src;
+      };
+
+      return fetchProfile(); // Перезапрашиваем профиль
+    })
+    .then((profileData) => {
+      profileAvatar.src = profileData.avatar;
+    })
+    .catch((err) => console.error("Ошибка обновления аватара:", err))
+    .finally(() => {
+      closeModal(popupTypeAvatar);
+    });
+}
+
+//Вызываем
+avatarEditForm.addEventListener("submit", handleAvatarEditFormSubmit);
 // Legacy code ////////////////////////////////
 //
 // (Добавление изначальных карточек на страницу)

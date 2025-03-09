@@ -2,5 +2,16 @@
   margin-top: 27px;
   display: grid;
   grid-template-columns: 1fr;
+}
+
+.one-line {
+  grid-template-rows: 47px 30px;
+}
+
+.two-line {
   grid-template-rows: 47px 30px 47px 30px;
+}
+
+.three-line {
+  grid-template-rows: 47px 30px 47px 30px 47px 30px;
 }
