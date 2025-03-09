@@ -32,6 +32,9 @@ const enableValidation = ({
   cardNameInputError,
   linkInput,
   linkInputError,
+  avatarInput,
+  avatarInputInputError,
+  avatarSubmitButton,
 }) => {
   // Валидация nameInput ------------------------------------------
   const nameInputIsValid = (evt) => {
@@ -127,7 +130,6 @@ const enableValidation = ({
       clearValidation({ input: cardNameInput, error: cardNameInputError, submit: cardAddSubmitButton });
     }
   };
-
   // Валидация linkInput ---------------------------------------------
   const linkInputIsValid = (evt) => {
     // Сбрасываем предыдущую ошибку
@@ -152,6 +154,29 @@ const enableValidation = ({
     }
   };
 
+  const avatarInputIsValid = (evt) => {
+    // TODO: Закончить работу валидации
+    clearValidation({ input: avatarInput, error: avatarInputInputError, submit: avatarSubmitButton });
+
+    // Проверяем на отсутсвие текста
+    if (avatarInput.value.length === 0) {
+      avatarInput.setCustomValidity(avatarInput.dataset.mis);
+    }
+    //
+    else if (avatarInput.validity.typeMismatch) {
+      avatarInput.setCustomValidity(avatarInput.dataset.misMatch);
+    }
+
+    // Показываем или скрываем ошибку
+    if (avatarInput.validationMessage) {
+      avatarInput.classList.add("popup__input-error-is-active");
+      avatarInputInputError.textContent = avatarInput.validationMessage;
+      avatarSubmitButton.disabled = true;
+    } else {
+      clearValidation({ input: avatarInput, error: avatarInputInputError, submit: avatarSubmitButton });
+    }
+  };
+
   // Вешаем слушатели валидации nameInput
   nameInput.addEventListener("input", nameInputIsValid);
 
@@ -163,6 +188,9 @@ const enableValidation = ({
 
   // Вешаем слушатели валидации linkInput
   linkInput.addEventListener("input", linkInputIsValid);
+
+  //
+  avatarInput.addEventListener("input", avatarInputIsValid);
 };
 
 export { enableValidation, clearValidation };

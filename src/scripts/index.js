@@ -20,7 +20,7 @@ const popups = document.querySelectorAll(".popup");
 
 const profileSubmitButton = profileEditForm.querySelector(".popup__button");
 const cardAddSubmitButton = addCardForm.querySelector(".popup__button");
-const cardAvatarSubmitButton = addCardForm.querySelector(".popup__button");
+const avatarSubmitButton = addCardForm.querySelector(".popup__button");
 
 const nameInput = popupTypeEdit.querySelector("#popup__input_type_name");
 const nameInputError = profileEditForm.querySelector(`.${nameInput.id}-error`);
@@ -179,7 +179,7 @@ function popupTypeAddCardOpen(evt) {
 function popupTypeAvatarOpen(evt) {
   openModal(popupTypeAvatar);
 
-  clearValidation({ input: avatarInput, error: avatarInputInputError, submit: cardAvatarSubmitButton });
+  clearValidation({ input: avatarInput, error: avatarInputInputError, submit: avatarSubmitButton });
   avatarEditForm.reset();
 }
 
@@ -256,29 +256,13 @@ function handleAddCardFormSubmit(evt) {
       closeModal(popupTypeAddCard);
     })
     .catch((err) => console.error("Ошибка при добавлении карточки:", err));
-
   // Это все для того, чтобы карту можно было сразу удалить с сервера, не обновляя сраницы
 }
 
 // Вызываем на функцию submit'a на форму добавления карточки --------------------------
 addCardForm.addEventListener("submit", handleAddCardFormSubmit);
 
-// Обработка submit'a ---
-
-// // TODO: Аватар не загрудается сразу
-// function handleAvatarEditFormSubmit(evt) {
-//   evt.preventDefault();
-//   return changeAvatar(avatarInput.value)
-//     .then((res) => {
-//       console.log(res.url);
-
-//       profileAvatar.src = res.url;
-//     })
-//     .finally(() => {
-//       closeModal(popupTypeAvatar);
-//     });
-// }
-
+// Обработка submit'a avatarSubmitButton
 function handleAvatarEditFormSubmit(evt) {
   evt.preventDefault();
 
@@ -303,8 +287,9 @@ function handleAvatarEditFormSubmit(evt) {
     });
 }
 
-//Вызываем
+//Вызываем handleAvatarEditFormSubmit
 avatarEditForm.addEventListener("submit", handleAvatarEditFormSubmit);
+
 // Legacy code ////////////////////////////////
 //
 // (Добавление изначальных карточек на страницу)
@@ -327,6 +312,9 @@ enableValidation({
   cardNameInputError: imageNameInputError,
   linkInput: imageSrcInput,
   linkInputError: imageSrcInputError,
+  avatarInput: avatarInput,
+  avatarInputInputError: avatarInputInputError,
+  avatarSubmitButton: avatarSubmitButton,
 });
 
 // Класс анимации
