@@ -32,7 +32,7 @@ const avatarEditForm = popupTypeAvatar.querySelector('#avatar-form');
 // Submit'ы
 const profileSubmitButton = profileEditForm.querySelector('.popup__button');
 const cardAddSubmitButton = addCardForm.querySelector('.popup__button');
-const avatarSubmitButton = addCardForm.querySelector('.popup__button');
+const avatarSubmitButton = avatarEditForm.querySelector('.popup__button');
 
 // 1000 и 1 Input
 const nameInput = popupTypeEdit.querySelector('#popup__input_type_name');
@@ -192,27 +192,24 @@ function popupEditOpen(evt) {
   clearValidation({
     input: nameInput,
     error: nameInputError,
-    submit: cardAddSubmitButton,
   });
   clearValidation({
     input: aboutInput,
     error: aboutInputError,
-    submit: cardAddSubmitButton,
   });
 }
 // логика открытия для popupTypeAddCard
 function popupTypeAddCardOpen(evt) {
+  cardAddSubmitButton.disabled = true;
   openModal(popupTypeAddCard);
 
   clearValidation({
     input: imageSrcInput,
     error: imageSrcInputError,
-    submit: cardAddSubmitButton,
   });
   clearValidation({
     input: imageNameInput,
     error: imageNameInputError,
-    submit: cardAddSubmitButton,
   });
   addCardForm.reset();
 }
@@ -220,13 +217,14 @@ function popupTypeAddCardOpen(evt) {
 // логика открытия для popupTypeAvatar
 function popupTypeAvatarOpen(evt) {
   openModal(popupTypeAvatar);
+  avatarSubmitButton.disabled = true;
+
+  avatarEditForm.reset();
 
   clearValidation({
     input: avatarInput,
     error: avatarInputInputError,
-    submit: avatarSubmitButton,
   });
-  avatarEditForm.reset();
 }
 
 //закрытие popup по кажатию на overlay
@@ -317,11 +315,13 @@ function handleAddCardFormSubmit(evt) {
 // Вызываем на функцию submit'a на форму добавления карточки --------------------------
 addCardForm.addEventListener('submit', handleAddCardFormSubmit);
 
-// Обработка submit'a avatarSubmitButton
+// // Обработка submit'a avatarSubmitButton
+
 function handleAvatarEditFormSubmit(evt) {
   evt.preventDefault();
-  //TODO: Не работает
+  console.log(avatarSubmitButton.textContent);
   avatarSubmitButton.textContent = 'Сохраняем...';
+  console.log(avatarSubmitButton);
 
   changeAvatar(avatarInput.value)
     .then((res) => {
@@ -341,7 +341,7 @@ function handleAvatarEditFormSubmit(evt) {
     .catch((err) => console.error('Ошибка обновления аватара:', err))
     .finally(() => {
       closeModal(popupTypeAvatar);
-      avatarSubmitButton.textContent = 'Сохранить';
+      avatarSubmitButton.textContent = 'Сохранить'; // Сохранить
     });
 }
 

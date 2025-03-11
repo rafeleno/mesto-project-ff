@@ -1,8 +1,8 @@
 const clearValidation = ({ input, error, submit }) => {
-  input.setCustomValidity("");
-  input.classList.remove("popup__input-error-is-active");
-  error.textContent = "";
-  submit.disabled = false;
+  input.setCustomValidity('');
+  input.classList.remove('popup__input-error-is-active');
+  error.textContent = '';
+  submit ? (submit.disabled = false) : null;
 
   // TODO: Почесать реупу над конфигом
   //
@@ -38,12 +38,10 @@ const enableValidation = ({
 }) => {
   // Валидация nameInput ------------------------------------------
   const nameInputIsValid = (evt) => {
-    // TODO: Переделать позиционирование
-
-    // Сбрасываем предыдущую ошибку
-    // nameInput.setCustomValidity("");
-    // nameInputError.textContent = "";
-    clearValidation({ input: nameInput, error: nameInputError, submit: profileSubmitButton });
+    clearValidation({
+      input: nameInput,
+      error: nameInputError,
+    });
 
     // Проверяем на отсутсвие текста
     if (nameInput.value.length === 0) {
@@ -55,29 +53,33 @@ const enableValidation = ({
     }
     // Проверяем минимальную длину
     else if (nameInput.validity.tooShort) {
-      nameInput.setCustomValidity(`${nameInput.dataset.tooShort} ${nameInput.value.length} символ.`);
+      nameInput.setCustomValidity(
+        `${nameInput.dataset.tooShort} ${nameInput.value.length} символ.`
+      );
       // nameInput.setCustomValidity(`Минимальное количество символов: 2. Длина текста сейчас: ${nameInput.value.length}`);
     }
 
     // Показываем или скрываем ошибку
     if (nameInput.validationMessage) {
-      nameInput.classList.add("popup__input-error-is-active");
+      nameInput.classList.add('popup__input-error-is-active');
       nameInputError.textContent = nameInput.validationMessage;
       profileSubmitButton.disabled = true;
+    } else if (!nameInput.validationMessage && !aboutInput.validationMessage) {
+      profileSubmitButton.disabled = false;
     } else {
-      clearValidation({ input: nameInput, error: nameInputError, submit: profileSubmitButton });
+      clearValidation({
+        input: nameInput,
+        error: nameInputError,
+      });
     }
   };
 
   // Валидация aboutInput ------------------------------
   const aboutInputIsValid = (evt) => {
-    // TODO: Переделать позиционирование
-
-    // Сбрасываем предыдущую ошибку
-    // aboutInput.setCustomValidity("");
-    // aboutInputError.textContent = "";
-    // profileSubmitButton.disabled = false;
-    clearValidation({ input: aboutInput, error: aboutInputError, submit: profileSubmitButton });
+    clearValidation({
+      input: aboutInput,
+      error: aboutInputError,
+    });
 
     // Проверяем на отсутсвие текста
     if (aboutInput.value.length === 0) {
@@ -89,28 +91,32 @@ const enableValidation = ({
     }
     // Проверяем максимальную длину
     else if (aboutInput.validity.tooShort) {
-      nameInput.setCustomValidity(`${aboutInput.dataset.tooShort} ${aboutInput.value.length} символ.`);
+      nameInput.setCustomValidity(
+        `${aboutInput.dataset.tooShort} ${aboutInput.value.length} символ.`
+      );
     }
 
     // Показываем или скрываем ошибку
     if (aboutInput.validationMessage) {
-      aboutInput.classList.add("popup__input-error-is-active");
+      aboutInput.classList.add('popup__input-error-is-active');
       aboutInputError.textContent = aboutInput.validationMessage;
       profileSubmitButton.disabled = true;
+    } else if (!nameInput.validationMessage && !aboutInput.validationMessage) {
+      profileSubmitButton.disabled = false;
     } else {
-      clearValidation({ input: aboutInput, error: aboutInputError, submit: profileSubmitButton });
+      clearValidation({
+        input: aboutInput,
+        error: aboutInputError,
+      });
     }
   };
 
   // Валидация placeNameInput -------------------------------
   const placeNameInputIsValid = (evt) => {
-    // TODO: Переделать позиционирование
-
-    // Сбрасываем предыдущую ошибку
-    // cardNameInput.setCustomValidity("");
-    // cardNameInputError.textContent = "";
-    // cardAddSubmitButton.disabled = false;
-    clearValidation({ input: cardNameInput, error: cardNameInputError, submit: cardAddSubmitButton });
+    clearValidation({
+      input: cardNameInput,
+      error: cardNameInputError,
+    });
 
     // Проверяем на отсутсвие текста
     if (cardNameInput.value.length === 0) {
@@ -118,45 +124,73 @@ const enableValidation = ({
     }
     // Проверяем минимальную длину
     else if (cardNameInput.validity.tooShort) {
-      cardNameInput.setCustomValidity(`${cardNameInput.dataset.tooShort} ${cardNameInput.value.length}`);
+      cardNameInput.setCustomValidity(
+        `${cardNameInput.dataset.tooShort} ${cardNameInput.value.length}`
+      );
     }
     // Показываем или скрываем ошибку
     if (cardNameInput.validationMessage) {
-      cardNameInput.classList.add("popup__input-error-is-active");
+      cardNameInput.classList.add('popup__input-error-is-active');
       cardNameInputError.textContent = cardNameInput.validationMessage;
       cardAddSubmitButton.disabled = true;
+    } else if (
+      // TODO: Не работает такая валидация !!!!
+
+      !cardNameInput.validationMessage &&
+      !linkInput.validationMessage
+    ) {
+      console.log(
+        100 + cardNameInput.validationMessage + linkInput.validationMessage
+      );
+
+      cardAddSubmitButton.disabled = false;
     } else {
-      // cardNameInput.classList.remove("popup__input-error-is-active");
-      clearValidation({ input: cardNameInput, error: cardNameInputError, submit: cardAddSubmitButton });
+      clearValidation({
+        input: cardNameInput,
+        error: cardNameInputError,
+      });
     }
   };
   // Валидация linkInput ---------------------------------------------
   const linkInputIsValid = (evt) => {
-    // Сбрасываем предыдущую ошибку
-    // linkInput.setCustomValidity("");
-    // linkInputError.textContent = "";
-    // cardAddSubmitButton.disabled = false;
-    clearValidation({ input: linkInput, error: linkInputError, submit: cardAddSubmitButton });
+    clearValidation({
+      input: linkInput,
+      error: linkInputError,
+    });
 
     // Валидация URL
     if (linkInput.validity.typeMismatch) {
       linkInput.setCustomValidity(linkInput.dataset.misMatch);
     }
+    // if (linkInput.value.length === 0) {
+    //   linkInput.setCustomValidity(linkInput.dataset.mis);
+    // }
 
     // Показываем или скрываем ошибку
     if (linkInput.validationMessage) {
-      linkInput.classList.add("popup__input-error-is-active");
+      linkInput.classList.add('popup__input-error-is-active');
       linkInputError.textContent = linkInput.validationMessage;
       cardAddSubmitButton.disabled = true;
+    } else if (
+      !cardNameInput.validationMessage &&
+      !linkInput.validationMessage
+    ) {
+      cardAddSubmitButton.disabled = false;
     } else {
-      // linkInput.classList.remove("popup__input-error-is-active");
-      clearValidation({ input: linkInput, error: linkInputError, submit: cardAddSubmitButton });
+      clearValidation({
+        input: linkInput,
+        error: linkInputError,
+      });
     }
   };
 
   const avatarInputIsValid = (evt) => {
     // TODO: Закончить работу валидации
-    clearValidation({ input: avatarInput, error: avatarInputInputError, submit: avatarSubmitButton });
+    clearValidation({
+      input: avatarInput,
+      error: avatarInputInputError,
+    });
+    avatarSubmitButton.disabled = true;
 
     // Проверяем на отсутсвие текста
     if (avatarInput.value.length === 0) {
@@ -169,28 +203,48 @@ const enableValidation = ({
 
     // Показываем или скрываем ошибку
     if (avatarInput.validationMessage) {
-      avatarInput.classList.add("popup__input-error-is-active");
+      avatarInput.classList.add('popup__input-error-is-active');
       avatarInputInputError.textContent = avatarInput.validationMessage;
       avatarSubmitButton.disabled = true;
     } else {
-      clearValidation({ input: avatarInput, error: avatarInputInputError, submit: avatarSubmitButton });
+      clearValidation({
+        input: avatarInput,
+        error: avatarInputInputError,
+      });
     }
   };
 
+  // Валиадция submit'ов -----------------
+  // profileEditForm
+  // if (!nameInput.validationMessage && !aboutInput.validationMessage) {
+  //   profileSubmitButton.disabled = false;
+  // }
+
+  // TODO: Почему то не работает!!!
+  // addCardForm
+  // if (!cardNameInput.validationMessage && !linkInput.validationMessage) {
+  //   cardAddSubmitButton.disabled = false;
+  // }
+
+  // avatarEditForm
+  if (!avatarInput.validationMessage) {
+    cardAddSubmitButton.disabled = false;
+  }
+
   // Вешаем слушатели валидации nameInput
-  nameInput.addEventListener("input", nameInputIsValid);
+  nameInput.addEventListener('input', nameInputIsValid);
 
   // Вешаем слушатели валидации aboutInput
-  aboutInput.addEventListener("input", aboutInputIsValid);
+  aboutInput.addEventListener('input', aboutInputIsValid);
 
   // Вешаем слушатели валидации placeNameInput
-  cardNameInput.addEventListener("input", placeNameInputIsValid);
+  cardNameInput.addEventListener('input', placeNameInputIsValid);
 
   // Вешаем слушатели валидации linkInput
-  linkInput.addEventListener("input", linkInputIsValid);
+  linkInput.addEventListener('input', linkInputIsValid);
 
   //
-  avatarInput.addEventListener("input", avatarInputIsValid);
+  avatarInput.addEventListener('input', avatarInputIsValid);
 };
 
 export { enableValidation, clearValidation };
