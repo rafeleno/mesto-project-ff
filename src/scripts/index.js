@@ -3,6 +3,7 @@ import "../pages/index.css";
 import { openModal, closeModal } from "./components/modal.js";
 import { handleCardDelete, createCard, likeButtonHandleClick } from "./components/card.js";
 import { enableValidation, clearValidation } from "./components/validation.js";
+import { changeAvatar, addCard, changeProfile, fetchProfile, fetchCards } from "./api.js";
 
 // Токен: 017e0eb7-895d-414b-bf4c-a4ee4cf48a1b
 // Идентификатор группы: wff-cohort-33
@@ -50,52 +51,6 @@ const imagePopup = document.querySelector(".popup_type_image");
 const popupImageElement = document.querySelector(".popup__image");
 const popupCaptionElement = document.querySelector(".popup__caption");
 
-//TODO: Раскидать fetch'и
-
-// Замена аватара
-function changeAvatar(avatarLink) {
-  return fetch("https://nomoreparties.co/v1/wff-cohort-33/users/me/avatar", {
-    method: "PATCH",
-    headers: {
-      authorization: "017e0eb7-895d-414b-bf4c-a4ee4cf48a1b",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      avatar: avatarLink,
-    }),
-  });
-}
-
-// Добавить карту
-function addCard({ name, link }) {
-  return fetch("https://nomoreparties.co/v1/wff-cohort-33/cards", {
-    method: "POST",
-    headers: {
-      authorization: "017e0eb7-895d-414b-bf4c-a4ee4cf48a1b",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      name: name,
-      link: link,
-    }),
-  });
-}
-
-// Сменить данные профиля
-function changeProfile({ name, about }) {
-  return fetch("https://nomoreparties.co/v1/wff-cohort-33/users/me", {
-    method: "PATCH",
-    headers: {
-      authorization: "017e0eb7-895d-414b-bf4c-a4ee4cf48a1b",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      name: name,
-      about: about,
-    }),
-  });
-}
-
 // Проверка на лайк
 function isWeLike(cardId) {
   return Promise.all([fetchProfile(), fetchCard(cardId)]).then(([personData, cardData]) => {
@@ -103,20 +58,6 @@ function isWeLike(cardId) {
       return person._id === personData._id;
     });
   });
-}
-
-// Забираем данные пользователя
-function fetchProfile() {
-  return fetch("https://nomoreparties.co/v1/wff-cohort-33/users/me", {
-    headers: { authorization: "017e0eb7-895d-414b-bf4c-a4ee4cf48a1b" },
-  }).then((res) => res.json());
-}
-
-// Забираем данные карточек
-function fetchCards() {
-  return fetch("https://nomoreparties.co/v1/wff-cohort-33/cards", {
-    headers: { authorization: "017e0eb7-895d-414b-bf4c-a4ee4cf48a1b" },
-  }).then((res) => res.json());
 }
 
 // Забираем данные карты по Id
@@ -245,8 +186,6 @@ function handleProfileFormSubmit(evt) {
   changeProfile({ name: name, about: about })
     .then((res) => res.json())
     .then((profileData) => {
-      console.log(profileData);
-
       profileTitle.textContent = profileData.name;
       profileDescription.textContent = profileData.about;
     })

@@ -29,11 +29,8 @@ const checkFormValidity = (inputs, submitButton) => {
 
 const enableValidation = ({ form, regex, submitButton }) => {
   const inputs = Array.from(form.querySelectorAll(".popup__input"));
-  console.log(inputs);
 
   inputs.forEach((input) => {
-    // console.log(input);
-
     const errorElement = form.querySelector(`.${input.id}-error`);
 
     input.addEventListener("input", () => {
