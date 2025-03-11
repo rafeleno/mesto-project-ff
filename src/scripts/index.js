@@ -356,7 +356,7 @@ const inputRegex = /^[a-zA-Zа-яА-ЯёЁ\s-]+$/;
 //   avatarSubmitButton: avatarSubmitButton,
 // });
 
-enableValidation({ form: addCardForm, regex: inputRegex, submitButton: cardAddSubmitButton });
+enableValidation({ form: addCardForm, submitButton: cardAddSubmitButton });
 enableValidation({ form: profileEditForm, regex: inputRegex, submitButton: profileSubmitButton });
 enableValidation({ form: avatarEditForm, submitButton: avatarSubmitButton });
 
