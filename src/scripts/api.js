@@ -69,8 +69,6 @@ const HEADERS = {
 
 // Универсальная функция запроса
 function request(endpoint, options = {}) {
-  console.log(endpoint);
-
   return fetch(`${API_URL}${endpoint}`, {
     headers: HEADERS,
     ...options,
@@ -121,4 +119,18 @@ function fetchCards() {
   return request('/cards');
 }
 
-export { changeAvatar, addCard, changeProfile, fetchProfile, fetchCards };
+// Удалить карточку с сервера
+function deleteCard(cardId) {
+  request(`/cards/${cardId}`, {
+    method: 'DELETE',
+  });
+}
+
+export {
+  changeAvatar,
+  addCard,
+  changeProfile,
+  fetchProfile,
+  fetchCards,
+  deleteCard,
+};
