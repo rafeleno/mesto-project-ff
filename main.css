@@ -398,10 +398,31 @@ template {
   background: #000;
 }
 
+.avatar_edit-element {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: transparent;
+  border-radius: 50%;
+  z-index: 10;
+}
+
+.avatar_edit-element:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+  background-image: url(6c7bf05444b9793fdf6e.svg);
+  background-repeat: no-repeat;
+  background-size: 26px 26px;
+  background-position: center;
+  cursor: pointer;
+}
+
 .avatar {
-    height: 120px;
-    width: 120px;
-    border-radius: 50%;
+  height: 120px;
+  width: 120px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .header__logo {
@@ -631,26 +652,27 @@ template {
 }
 
 .profile__image {
-    width: 120px;
-    height: 120px;
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    border-radius: 50%;
-    background-size: cover;
-    background-position: center;
-    margin: 0 29px 0 0;
+  position: relative;
+  width: 120px;
+  height: 120px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  margin: 0 29px 0 0;
 }
 
 @media screen and (max-width: 740px) {
-    .profile__image {
-        margin: 0 10px 0 0;
-    }
+  .profile__image {
+    margin: 0 10px 0 0;
+  }
 }
 
 @media screen and (max-width: 480px) {
-    .profile__image {
-        margin-right: 0;
-    }
+  .profile__image {
+    margin-right: 0;
+  }
 }
 
 .profile {
@@ -733,6 +755,18 @@ template {
   opacity: 0.6;
 }
 
+.card__like-volume {
+  font-size: 13px;
+}
+
+.card__like-button-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 3px;
+  align-items: center;
+}
+
 .card__like-button_is-active {
   background: transparent url(a7ffe37dcb927ba0c46c.svg) no-repeat;
 }
@@ -773,7 +807,7 @@ template {
 }
 
 .card {
-  font-family: 'Inter', Arial, sans-serif;
+  font-family: "Inter", Arial, sans-serif;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
@@ -857,6 +891,20 @@ template {
 
 .popup__form {
   margin-top: 27px;
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.one-line {
+  grid-template-rows: 47px 30px;
+}
+
+.two-line {
+  grid-template-rows: 47px 30px 47px 30px;
+}
+
+.three-line {
+  grid-template-rows: 47px 30px 47px 30px 47px 30px;
 }
 
 .popup__input {
@@ -868,7 +916,10 @@ template {
   line-height: 18px;
   box-sizing: border-box;
   padding: 10px 0 0;
-  margin-bottom: 5px;
+}
+
+.popup__input-error-is-active {
+  border-bottom: 1px solid rgba(255, 0, 0);
 }
 
 @media screen and (max-width: 568px) {
@@ -878,15 +929,20 @@ template {
   }
 }
 
-.popup__input__error {
-  margin: 0;
-  margin-bottom: 5px;
-  color: rgb(256 0 0);
+.popup__input-error {
+  font-size: 12px;
+  line-height: 13px;
+  color: rgba(255, 0, 0);
+  margin-top: 5px;
 }
 
-.popup__input__error:last-of-type {
+.popup__input-error:last-of-type {
   margin-bottom: 0;
 }
+/* 
+.popup__input-error-ia-active {
+  color: rgba(255, 0, 0);
+} */
 
 .popup__button {
   width: 100%;
@@ -901,12 +957,20 @@ template {
   border-radius: 2px;
   border: none;
   transition: visibility 0s, background 0.3s;
-  margin-top: 48px;
+  margin-top: 28px;
 }
 
 .popup__button:hover {
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(1, 1, 1, 0.8);
   cursor: pointer;
+}
+
+.popup__button:disabled {
+  background: rgb(255, 255, 255);
+  color: rgb(197, 197, 197);
+  cursor: pointer;
+  border: solid 2px rgb(197, 197, 197);
+  cursor: auto;
 }
 
 @media screen and (max-width: 568px) {
