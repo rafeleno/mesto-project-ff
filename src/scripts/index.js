@@ -201,19 +201,45 @@ function handleProfileFormSubmit(evt) {
 // Вызываем на функцию submit'a на форму редактирования профиля ------------------------
 profileEditForm.addEventListener("submit", handleProfileFormSubmit);
 
+// function handleAddCardFormSubmit(evt) {
+//   evt.preventDefault();
+//   const imageSrc = imageSrcInput.value;
+//   const imageName = imageNameInput.value;
+//   cardAddSubmitButton.textContent = "Сохраняем...";
+
+//   addCard({ name: imageName, link: imageSrc })
+//     .then((card) => {
+//       placesList.prepend(
+//         createCard({
+//           imageSource: imageSrc,
+//           cardText: imageName,
+//           likes: card.likes,
+//           cardId: card._id,
+//           handleCardDelete: handleCardDelete,
+//           handleClick: likeButtonHandleClick,
+//           popupOpener: popupOpener,
+//           ownerId: card.owner._id,
+//           userId: userId,
+//         })
+//       );
+//       closeModal(popupTypeAddCard);
+//       cardAddSubmitButton.textContent = "Сохранить";
+//     })
+//     .catch((err) => console.error("Ошибка при добавлении карточки:", err));
+//   // Это все для того, чтобы карту можно было сразу удалить с сервера, не обновляя сраницы
+// }
+
 // Обрабатывает создание новой карточки
 function handleAddCardFormSubmit(evt) {
   evt.preventDefault();
-  const imageSrc = imageSrcInput.value;
-  const imageName = imageNameInput.value;
   cardAddSubmitButton.textContent = "Сохраняем...";
 
-  addCard({ name: imageName, link: imageSrc })
+  addCard({ name: imageNameInput.value, link: imageSrcInput.value })
     .then((card) => {
       placesList.prepend(
         createCard({
-          imageSource: imageSrc,
-          cardText: imageName,
+          imageSource: card.link,
+          cardText: card.name,
           likes: card.likes,
           cardId: card._id,
           handleCardDelete: handleCardDelete,
@@ -223,11 +249,12 @@ function handleAddCardFormSubmit(evt) {
           userId: userId,
         })
       );
+    })
+    .catch((err) => console.error("Ошибка при добавлении карточки:", err))
+    .finally(() => {
       closeModal(popupTypeAddCard);
       cardAddSubmitButton.textContent = "Сохранить";
-    })
-    .catch((err) => console.error("Ошибка при добавлении карточки:", err));
-  // Это все для того, чтобы карту можно было сразу удалить с сервера, не обновляя сраницы
+    });
 }
 
 // Вызываем на функцию submit'a на форму добавления карточки --------------------------
