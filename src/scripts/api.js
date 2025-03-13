@@ -64,4 +64,18 @@ function deleteCard(cardId) {
   });
 }
 
-export { changeAvatar, addCard, changeProfile, fetchProfile, fetchCards, deleteCard };
+// Добавление лайка
+function likeCountPlus(cardId) {
+  return request(`/cards/likes/${cardId}`, {
+    method: "PUT",
+  });
+}
+
+// Удаление лайка
+function likeCountMinus(cardId) {
+  return request(`/cards/likes/${cardId}`, {
+    method: "DELETE",
+  });
+}
+
+export { changeAvatar, addCard, changeProfile, fetchProfile, fetchCards, deleteCard, likeCountPlus, likeCountMinus };

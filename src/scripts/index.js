@@ -1,9 +1,9 @@
 import "../pages/index.css";
 // import { initialCards } from "./cards.js"; --- Legacy
 import { openModal, closeModal } from "./components/modal.js";
-import { handleCardDelete, createCard, likeButtonHandleClick } from "./components/card.js";
+import { createCard, likeButtonHandleClick } from "./components/card.js";
 import { enableValidation, clearValidation } from "./components/validation.js";
-import { changeAvatar, addCard, changeProfile, fetchProfile, fetchCards } from "./api.js";
+import { deleteCard, changeAvatar, addCard, changeProfile, fetchProfile, fetchCards } from "./api.js";
 
 // Токен: 017e0eb7-895d-414b-bf4c-a4ee4cf48a1b
 // Идентификатор группы: wff-cohort-33
@@ -50,15 +50,8 @@ const profileAvatar = document.querySelector(".avatar");
 const imagePopup = document.querySelector(".popup_type_image");
 const popupImageElement = document.querySelector(".popup__image");
 const popupCaptionElement = document.querySelector(".popup__caption");
-
-// Проверка на лайк
-function isWeLike(cardId) {
-  return Promise.all([fetchProfile(), fetchCard(cardId)]).then(([personData, cardData]) => {
-    return cardData.likes.some((person) => {
-      return person._id === personData._id;
-    });
-  });
-}
+// Идентификатор пользователя
+let userId;
 
 // Забираем данные карты по Id
 function fetchCard(cardId) {
@@ -68,8 +61,8 @@ function fetchCard(cardId) {
 // Выполняем оба запроса
 Promise.all([fetchProfile(), fetchCards()])
   .then(([personData, cardsData]) => {
-    const myId = personData._id;
-
+    // задаем id пользователя
+    userId = personData._id;
     // Обрабатываем данные профиля
     profileTitle.textContent = personData.name;
     profileDescription.textContent = personData.about;
@@ -77,9 +70,6 @@ Promise.all([fetchProfile(), fetchCards()])
 
     // Обрабатываем данные карточек
     cardsData.forEach((card) => {
-      //Булевый индикатор мы/не мы создатель карты
-      const myCardDeleteIsValid = myId == card.owner._id;
-
       placesList.append(
         createCard({
           imageSource: card.link,
@@ -87,15 +77,15 @@ Promise.all([fetchProfile(), fetchCards()])
           likes: card.likes,
           cardId: card._id,
           handleCardDelete: handleCardDelete,
-          removeHandleDelete: myCardDeleteIsValid,
           handleClick: likeButtonHandleClick,
-          isWeLike: isWeLike,
           popupOpener: popupOpener,
           ownerId: card.owner._id,
+          userId: userId,
         })
       );
     });
   })
+
   .catch((err) => console.error("Ошибка при загрузке данных:", err));
 
 // Добавление открытия Popup'a при нажатии на соответсвующие кнопки
@@ -173,22 +163,38 @@ closeButtons.forEach((button) => {
   });
 });
 
+// function handleProfileFormSubmit(evt) {
+//   evt.preventDefault();
+
+//   const name = nameInput.value;
+//   const about = aboutInput.value;
+//   profileSubmitButton.textContent = "Сохраняем...";
+
+//   changeProfile({ name: name, about: about })
+//     .then((profileData) => {
+//       profileTitle.textContent = profileData.name;
+//       profileDescription.textContent = profileData.about;
+//     })
+//     .finally(() => {
+//       profileSubmitButton.textContent = "Сохранить";
+//       closeModal(popupTypeEdit);
+//     });
+// }
+
 // Обрабытваем Submit в редакторе профиля ----------------------------------------------
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
-
-  const name = nameInput.value;
-  const about = aboutInput.value;
   profileSubmitButton.textContent = "Сохраняем...";
 
-  changeProfile({ name: name, about: about })
+  changeProfile({ name: nameInput.value, about: aboutInput.value })
     .then((profileData) => {
       profileTitle.textContent = profileData.name;
       profileDescription.textContent = profileData.about;
+      closeModal(popupTypeEdit);
     })
+    .catch((err) => console.error("Ошибка при сохранении профиля:", err))
     .finally(() => {
       profileSubmitButton.textContent = "Сохранить";
-      closeModal(popupTypeEdit);
     });
 }
 
@@ -208,13 +214,13 @@ function handleAddCardFormSubmit(evt) {
         createCard({
           imageSource: imageSrc,
           cardText: imageName,
+          likes: card.likes,
           cardId: card._id,
           handleCardDelete: handleCardDelete,
-          removeHandleDelete: true,
           handleClick: likeButtonHandleClick,
-          isWeLike: isWeLike,
           popupOpener: popupOpener,
           ownerId: card.owner._id,
+          userId: userId,
         })
       );
       closeModal(popupTypeAddCard);
@@ -273,6 +279,51 @@ enableValidation({ form: avatarEditForm, submitButton: avatarSubmitButton });
 popups.forEach(function (item) {
   item.classList.add("popup_is-animated");
 });
+
+//удаляет карточку
+const popupTypeCardDelete = document.querySelector(".popup_type_cardDelete");
+const cardDeleteForm = document.querySelector("#card-delete-form");
+
+let selectedCard = null; // Глобальная переменная для хранения выбранной карточки
+
+function handleCardDelete(deleteHandle) {
+  openModal(popupTypeCardDelete);
+
+  // Сохраняем актуальную карточку
+  selectedCard = deleteHandle.target.closest(".card");
+
+  // Очищаем старые обработчики перед добавлением нового
+  const newCardDeleteForm = cardDeleteForm.cloneNode(true);
+  cardDeleteForm.replaceWith(newCardDeleteForm);
+
+  // Добавляем новый обработчик `submit`
+  newCardDeleteForm.addEventListener("submit", (evt) => {
+    evt.preventDefault();
+    deleteSelectedCard();
+  });
+
+  // Добавляем обработчик нажатия Enter
+  function handleEnterKey(evt) {
+    if (evt.key === "Enter") {
+      deleteSelectedCard();
+    }
+  }
+  window.addEventListener("keydown", handleEnterKey);
+
+  // Функция удаления карточки
+  function deleteSelectedCard() {
+    if (!selectedCard) return;
+
+    deleteCard(selectedCard.dataset.cardId)
+      .then(() => {
+        closeModal(popupTypeCardDelete);
+        selectedCard.remove();
+        selectedCard = null; // Сбрасываем переменную после удаления
+        window.removeEventListener("keydown", handleEnterKey); // Убираем обработчик Enter
+      })
+      .catch((err) => console.error("Ошибка при удалении карточки:", err));
+  }
+}
 
 fetchProfile();
 fetchCards();
