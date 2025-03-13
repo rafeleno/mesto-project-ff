@@ -163,24 +163,6 @@ closeButtons.forEach((button) => {
   });
 });
 
-// function handleProfileFormSubmit(evt) {
-//   evt.preventDefault();
-
-//   const name = nameInput.value;
-//   const about = aboutInput.value;
-//   profileSubmitButton.textContent = "Сохраняем...";
-
-//   changeProfile({ name: name, about: about })
-//     .then((profileData) => {
-//       profileTitle.textContent = profileData.name;
-//       profileDescription.textContent = profileData.about;
-//     })
-//     .finally(() => {
-//       profileSubmitButton.textContent = "Сохранить";
-//       closeModal(popupTypeEdit);
-//     });
-// }
-
 // Обрабытваем Submit в редакторе профиля ----------------------------------------------
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
