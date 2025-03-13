@@ -201,34 +201,6 @@ function handleProfileFormSubmit(evt) {
 // Вызываем на функцию submit'a на форму редактирования профиля ------------------------
 profileEditForm.addEventListener("submit", handleProfileFormSubmit);
 
-// function handleAddCardFormSubmit(evt) {
-//   evt.preventDefault();
-//   const imageSrc = imageSrcInput.value;
-//   const imageName = imageNameInput.value;
-//   cardAddSubmitButton.textContent = "Сохраняем...";
-
-//   addCard({ name: imageName, link: imageSrc })
-//     .then((card) => {
-//       placesList.prepend(
-//         createCard({
-//           imageSource: imageSrc,
-//           cardText: imageName,
-//           likes: card.likes,
-//           cardId: card._id,
-//           handleCardDelete: handleCardDelete,
-//           handleClick: likeButtonHandleClick,
-//           popupOpener: popupOpener,
-//           ownerId: card.owner._id,
-//           userId: userId,
-//         })
-//       );
-//       closeModal(popupTypeAddCard);
-//       cardAddSubmitButton.textContent = "Сохранить";
-//     })
-//     .catch((err) => console.error("Ошибка при добавлении карточки:", err));
-//   // Это все для того, чтобы карту можно было сразу удалить с сервера, не обновляя сраницы
-// }
-
 // Обрабатывает создание новой карточки
 function handleAddCardFormSubmit(evt) {
   evt.preventDefault();
@@ -260,32 +232,23 @@ function handleAddCardFormSubmit(evt) {
 // Вызываем на функцию submit'a на форму добавления карточки --------------------------
 addCardForm.addEventListener("submit", handleAddCardFormSubmit);
 
-// // Обработка submit'a avatarSubmitButton
-
+//  Обработка submit'a avatarSubmitButton
 function handleAvatarEditFormSubmit(evt) {
   evt.preventDefault();
-
   avatarSubmitButton.textContent = "Сохраняем...";
 
   changeAvatar(avatarInput.value)
     .then((res) => {
-      // Создаём новое изображение, чтобы избежать кэша
-      const newImage = new Image();
-      newImage.src = res.url;
-
-      newImage.onload = () => {
-        profileAvatar.src = newImage.src;
-      };
-
-      return fetchProfile(); // Перезапрашиваем профиль
+      profileAvatar.src = res.url;
+      return fetchProfile();
     })
     .then((profileData) => {
       profileAvatar.src = profileData.avatar;
+      closeModal(popupTypeAvatar);
     })
     .catch((err) => console.error("Ошибка обновления аватара:", err))
     .finally(() => {
-      closeModal(popupTypeAvatar);
-      avatarSubmitButton.textContent = "Сохранить"; // Сохранить
+      avatarSubmitButton.textContent = "Сохранить";
     });
 }
 
