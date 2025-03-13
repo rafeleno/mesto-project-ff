@@ -27,7 +27,9 @@ function createCard({ imageSource, cardText, likes, cardId, handleCardDelete, po
 
   // Проверяем на то, что мы создали карту
   if (userId === ownerId) {
-    cardDeleteButton.addEventListener("click", handleCardDelete);
+    cardDeleteButton.addEventListener("click", (evt) => {
+      handleCardDelete(cardElement);
+    });
   } else {
     cardDeleteButton.remove();
   }

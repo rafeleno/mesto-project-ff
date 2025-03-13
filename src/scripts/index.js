@@ -256,11 +256,10 @@ const cardDeleteForm = document.querySelector("#card-delete-form");
 
 let selectedCard = null; // Глобальная переменная для хранения выбранной карточки
 
-function handleCardDelete(deleteHandle) {
-  openModal(popupTypeCardDelete);
+function handleCardDelete(card) {
+  let selectedCard = card;
 
-  // Сохраняем актуальную карточку
-  selectedCard = deleteHandle.target.closest(".card");
+  openModal(popupTypeCardDelete);
 
   // Очищаем старые обработчики перед добавлением нового
   const newCardDeleteForm = cardDeleteForm.cloneNode(true);
