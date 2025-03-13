@@ -1,7 +1,7 @@
 import "../pages/index.css";
 // import { initialCards } from "./cards.js"; --- Legacy
 import { openModal, closeModal } from "./components/modal.js";
-import { createCard, likeButtonHandleClick } from "./components/card.js";
+import { createCard } from "./components/card.js";
 import { enableValidation, clearValidation } from "./components/validation.js";
 import { deleteCard, changeAvatar, addCard, changeProfile, fetchProfile, fetchCards } from "./api.js";
 
@@ -77,7 +77,6 @@ Promise.all([fetchProfile(), fetchCards()])
           likes: card.likes,
           cardId: card._id,
           handleCardDelete: handleCardDelete,
-          handleClick: likeButtonHandleClick,
           popupOpener: popupOpener,
           ownerId: card.owner._id,
           userId: userId,
@@ -197,7 +196,6 @@ function handleAddCardFormSubmit(evt) {
           likes: card.likes,
           cardId: card._id,
           handleCardDelete: handleCardDelete,
-          handleClick: likeButtonHandleClick,
           popupOpener: popupOpener,
           ownerId: card.owner._id,
           userId: userId,
