@@ -2,24 +2,39 @@
 <html lang="ru">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Mesto</title>
   </head>
   <body class="page">
     <div class="page__content">
       <header class="header page__section">
-        <img src="<%=require('./images/logo.svg')%>" alt="Логотип проекта масто" class="logo header__logo" />
+        <img
+          src="<%=require('./images/logo.svg')%>"
+          alt="Логотип проекта масто"
+          class="logo header__logo"
+        />
       </header>
       <main class="content">
         <section class="profile page__section">
           <div class="profile__image">
-            <img src="<%=require('./images/profile-image.png')%>" alt="Sample Image" class="avatar" />
+            <img
+              src="<%=require('./images/profile-image.png')%>"
+              alt="Sample Image"
+              class="avatar"
+            />
             <div class="avatar_edit-element"></div>
           </div>
           <div class="profile__info">
             <h1 class="profile__title">Loading..</h1>
-            <button class="profile__edit-button" type="button" id="profile-edit-button"></button>
+            <button
+              class="profile__edit-button"
+              type="button"
+              id="profile-edit-button"
+            ></button>
             <p class="profile__description">Loading..</p>
           </div>
           <button class="profile__add-button" type="button"></button>
@@ -35,7 +50,12 @@
         <div class="popup__content">
           <button type="button" class="popup__close"></button>
           <h3 class="popup__title">Редактировать профиль</h3>
-          <form class="popup__form two-line" name="edit-profile" id="profile-edit-form" novalidate>
+          <form
+            class="popup__form two-line"
+            name="edit-profile"
+            id="profile-edit-form"
+            novalidate
+          >
             <input
               type="text"
               name="name"
@@ -47,8 +67,11 @@
               data-miss="Вы пропустили это поле."
               data-miss-regex="Текст может содержать только буквы, дефисы и пробелы."
               data-too-short="Минимальное количество символов: 2. Длина текста сейчас:"
+              required
             />
-            <span class="popup__input_type_name-error popup__input-error"></span>
+            <span
+              class="popup__input_type_name-error popup__input-error"
+            ></span>
             <input
               type="text"
               name="description"
@@ -60,9 +83,14 @@
               data-miss-regex="Текст может содержать только буквы, дефисы и пробелы."
               data-too-short="Минимальное количество символов: 2. Длина текста сейчас:"
               placeholder="Занятие"
+              required
             />
-            <span class="popup__input_type_description-error popup__input-error"></span>
-            <button type="submit" class="button popup__button">Сохранить</button>
+            <span
+              class="popup__input_type_description-error popup__input-error"
+            ></span>
+            <button type="submit" class="button popup__button">
+              Сохранить
+            </button>
           </form>
         </div>
       </div>
@@ -70,7 +98,12 @@
         <div class="popup__content">
           <button type="button" class="popup__close"></button>
           <h3 class="popup__title">Новое место</h3>
-          <form class="popup__form two-line" name="new-place" id="card-add-form" novalidate>
+          <form
+            class="popup__form two-line"
+            name="new-place"
+            id="card-add-form"
+            novalidate
+          >
             <input
               type="text"
               name="place-name"
@@ -81,18 +114,34 @@
               placeholder="Название"
               data-miss="Вы пропустили это поле."
               data-too-short="Минимальное количество символов: 2. Длина текста сейчас:"
+              required
             />
-            <span class="popup__input-error popup__input_type_card-name-error"></span>
-            <input type="url" name="link" class="popup__input" id="popup__input_type_url" placeholder="Ссылка на картинку" data-mis-match="Введите адрес сайта." />
+            <span
+              class="popup__input-error popup__input_type_card-name-error"
+            ></span>
+            <input
+              type="url"
+              name="link"
+              class="popup__input"
+              id="popup__input_type_url"
+              placeholder="Ссылка на картинку"
+              data-mis-match="Введите адрес сайта."
+            />
             <span class="popup__input-error popup__input_type_url-error"></span>
-            <button type="submit" class="button popup__button">Сохранить</button>
+            <button type="submit" class="button popup__button">
+              Сохранить
+            </button>
           </form>
         </div>
       </div>
       <div class="popup popup_type_image">
         <div class="popup__content popup__content_content_image">
           <button type="button" class="popup__close"></button>
-          <img src="<%=require('./images/avatar.jpg')%>" alt="Sample Image" class="popup__image" />
+          <img
+            src="<%=require('./images/avatar.jpg')%>"
+            alt="Sample Image"
+            class="popup__image"
+          />
           <p class="popup__caption"></p>
         </div>
       </div>
@@ -101,7 +150,12 @@
       <div class="popup__content">
         <button type="button" class="popup__close"></button>
         <h3 class="popup__title">Обновить аватар</h3>
-        <form class="popup__form one-line" name="new-avatar" id="avatar-form" novalidate>
+        <form
+          class="popup__form one-line"
+          name="new-avatar"
+          id="avatar-form"
+          novalidate
+        >
           <input
             type="url"
             name="link"
@@ -111,8 +165,11 @@
             minlength="10"
             data-mis="Вы пропустили это поле."
             data-mis-match="Введите адрес изображения в формате URL."
+            required
           />
-          <span class="popup__input-error popup__input_type_avatar-error"></span>
+          <span
+            class="popup__input-error popup__input_type_avatar-error"
+          ></span>
           <button type="submit" class="button popup__button">Сохранить</button>
         </form>
       </div>
@@ -121,14 +178,23 @@
       <div class="popup__content">
         <button type="button" class="popup__close"></button>
         <h3 class="popup__title">Вы уверенны?</h3>
-        <form class="popup__form one-line" name="delete-card" id="card-delete-form" novalidate>
+        <form
+          class="popup__form one-line"
+          name="delete-card"
+          id="card-delete-form"
+          novalidate
+        >
           <button type="submit" class="button popup__button">Да</button>
         </form>
       </div>
     </div>
     <template id="card-template">
       <li class="places__item card">
-        <img class="card__image" src="<%=require('./images/avatar.jpg')%>" alt="Sample Image" />
+        <img
+          class="card__image"
+          src="<%=require('./images/avatar.jpg')%>"
+          alt="Sample Image"
+        />
         <button type="button" class="card__delete-button"></button>
         <div class="card__description">
           <h2 class="card__title"></h2>
