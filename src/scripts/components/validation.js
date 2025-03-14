@@ -1,12 +1,15 @@
-const clearValidation = ({ input, error }) => {
+const clearValidation = ({ input, validationConfig, error }) => {
   input.setCustomValidity("");
-  input.classList.remove("popup__input-error-is-active");
+  console.log(validationConfig.inputErrorClass + 100);
 
+  input.classList.remove(validationConfig.inputErrorClass);
   error.textContent = "";
 };
 
-const validateInput = ({ input, errorElement, submitButton, regex = null }) => {
-  clearValidation({ input: input, error: errorElement });
+const validateInput = ({ input, validationConfig, errorElement, submitButton, regex = null }) => {
+  console.log(input);
+
+  clearValidation({ input: input, validationConfig: validationConfig, error: errorElement });
 
   if (input.value.length === 0) {
     input.setCustomValidity(input.dataset.miss);
@@ -17,9 +20,8 @@ const validateInput = ({ input, errorElement, submitButton, regex = null }) => {
   }
 
   if (input.validationMessage) {
-    input.classList.add("popup__input-error-is-active");
+    input.classList.add(validationConfig.inputErrorClass);
     errorElement.textContent = input.validationMessage;
-    submitButton.disabled = true;
   }
 };
 
@@ -27,15 +29,15 @@ const checkFormValidity = (inputs, submitButton) => {
   submitButton.disabled = inputs.some((input) => input.validationMessage);
 };
 
-const enableValidation = ({ form, regex, submitButton }) => {
-  const inputs = Array.from(form.querySelectorAll(".popup__input"));
+const enableValidation = ({ form, regex, submitButton, validationConfig }) => {
+  const inputs = Array.from(form.querySelectorAll(validationConfig.inputSelector));
 
   inputs.forEach((input) => {
     const errorElement = form.querySelector(`.${input.id}-error`);
 
     input.addEventListener("input", () => {
-      validateInput({ input: input, errorElement: errorElement, submitButton: submitButton, regex: regex });
-      checkFormValidity(inputs, submitButton);
+      validateInput({ input: input, validationConfig: validationConfig, errorElement: errorElement, submitButton: submitButton, regex: regex });
+      checkFormValidity(inputs, validationConfig, submitButton);
     });
   });
 };

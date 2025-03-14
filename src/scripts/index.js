@@ -50,13 +50,18 @@ const profileAvatar = document.querySelector(".avatar");
 const imagePopup = document.querySelector(".popup_type_image");
 const popupImageElement = document.querySelector(".popup__image");
 const popupCaptionElement = document.querySelector(".popup__caption");
+// Конфтг валидации
+export const validationConfig = {
+  inputSelector: ".popup__input",
+  inputErrorClass: ".popup__input-error-is-active",
+};
 // Идентификатор пользователя
 let userId;
 
 // Забираем данные карты по Id
-function fetchCard(cardId) {
-  return fetchCards().then((cards) => cards.find((card) => card._id === cardId)); // Фильтрация по ID, так как сервер не дает одну карту
-}
+// function fetchCard(cardId) {
+//   return fetchCards().then((cards) => cards.find((card) => card._id === cardId)); // Фильтрация по ID, так как сервер не дает одну карту
+// }
 
 // Выполняем оба запроса
 Promise.all([fetchProfile(), fetchCards()])
@@ -101,10 +106,12 @@ function popupEditOpen(evt) {
   aboutInput.value = profileDescription.textContent;
   clearValidation({
     input: nameInput,
+    validationConfig: validationConfig,
     error: nameInputError,
   });
   clearValidation({
     input: aboutInput,
+    validationConfig: validationConfig,
     error: aboutInputError,
   });
 }
@@ -115,10 +122,12 @@ function popupTypeAddCardOpen(evt) {
 
   clearValidation({
     input: imageSrcInput,
+    validationConfig: validationConfig,
     error: imageSrcInputError,
   });
   clearValidation({
     input: imageNameInput,
+    validationConfig: validationConfig,
     error: imageNameInputError,
   });
   addCardForm.reset();
@@ -133,6 +142,7 @@ function popupTypeAvatarOpen(evt) {
 
   clearValidation({
     input: avatarInput,
+    validationConfig: validationConfig,
     error: avatarInputInputError,
   });
 }
@@ -237,13 +247,14 @@ avatarEditForm.addEventListener("submit", handleAvatarEditFormSubmit);
 
 const inputRegex = /^[a-zA-Zа-яА-ЯёЁ\s-]+$/;
 
-enableValidation({ form: addCardForm, submitButton: cardAddSubmitButton });
+enableValidation({ form: addCardForm, submitButton: cardAddSubmitButton, validationConfig: validationConfig });
 enableValidation({
   form: profileEditForm,
   regex: inputRegex,
   submitButton: profileSubmitButton,
+  validationConfig: validationConfig,
 });
-enableValidation({ form: avatarEditForm, submitButton: avatarSubmitButton });
+enableValidation({ form: avatarEditForm, submitButton: avatarSubmitButton, validationConfig: validationConfig });
 
 // Класс анимации
 popups.forEach(function (item) {
@@ -257,7 +268,7 @@ const cardDeleteForm = document.querySelector("#card-delete-form");
 let selectedCard = null; // Глобальная переменная для хранения выбранной карточки
 
 function handleCardDelete(card) {
-  let selectedCard = card;
+  selectedCard = card;
 
   openModal(popupTypeCardDelete);
 
