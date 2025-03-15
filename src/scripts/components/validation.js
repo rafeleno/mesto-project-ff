@@ -25,6 +25,8 @@ const validateInput = ({
     errorElement.textContent = input.dataset.misRegex;
   } else if (input.validity.tooShort) {
     errorElement.textContent = `${input.dataset.tooShort} ${input.value.length} символ.`;
+  } else if (input.validity.typeMismatch) {
+    errorElement.textContent = 'Введите адрес изображения в формате URL.';
   }
 
   if (!input.validity.valid) {
